@@ -3,8 +3,8 @@ const express = require("express");
 var app = express();
 const bodyparser = require("body-parser");
 const nodemailer = require("nodemailer");
-const accountSid = "#";
-const authToken = "#";
+const accountSid = "AC8cb91eba53c888ea8f40002738bb9081";
+const authToken = "c6c4260a2d4d24d349b98fa611b3b1e4";
 const client = require("twilio")(accountSid, authToken);
 var http = require("http");
 const LocalStorage = require('node-localstorage').LocalStorage,
@@ -164,11 +164,236 @@ function maketoken(length) {
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0');
 
-const encryptedString = cryptr.encrypt('1111');
+const encryptedString = cryptr.encrypt('4444');
 const decryptedString = cryptr.decrypt(encryptedString);
 
 console.log(encryptedString); 
+console.log("==================="); 
 console.log(decryptedString); 
+
+async function sendotp(){
+
+  var user = "Devo"
+  var otp_code = "231333"
+  let transporter = nodemailer.createTransport({
+    host: "mail.silapay.us",
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: "support@silapay.us", // generated ethereal user
+      pass: "1997223mnmn@S", // generated ethereal password
+    },
+  });
+
+  let info3 = await transporter.sendMail({
+    from: '"SilaPay | Support" <support@silapay.us>', // sender address
+    to: `ashurmustafaahmed@gmail.com`, // list of receivers ${emailid}
+    subject: `New OTP `, // Subject line
+    text: `New OTP `, // plain text body
+    html: `
+
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>SILA OTP</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body
+  style="
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #ffffff;
+    font-size: 14px;
+  "
+>
+  <div
+    style="
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 45px 30px 60px;
+      background: #f4f7ff;
+      background-image: url(https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661497957196_595865/email-template-background-banner);
+      background-repeat: no-repeat;
+      background-size: 800px 452px;
+      background-position: top center;
+      font-size: 14px;
+      color: #434343;
+    "
+  >
+    <header>
+      <center>
+        <img
+          alt=""
+          src="https://getsila.net/email_otp.png"
+          height="80px"
+        />
+      </center>
+    </header>
+
+    <main>
+      <div
+        style="
+          margin: 0;
+          margin-top: 70px;
+          padding: 92px 30px 115px;
+          background: #ffffff;
+          border-radius: 30px;
+          text-align: center;
+        "
+      >
+        <div style="width: 100%; max-width: 489px; margin: 0 auto">
+          <h1
+            style="
+              margin: 0;
+              font-size: 24px;
+              font-weight: 500;
+              color: #1f1f1f;
+            "
+          >
+            Your OTP
+          </h1>
+          <p
+            style="
+              margin: 0;
+              margin-top: 17px;
+              font-size: 16px;
+              font-weight: 500;
+            "
+          >
+            Hey ${user},
+          </p>
+          <p
+            style="
+              margin: 0;
+              margin-top: 17px;
+              font-weight: 500;
+              letter-spacing: 0.56px;
+            "
+          >
+            Thank you for choosing Sila Pay. Use the following OTP
+            to complete login in your account. OTP is
+            valid for
+            <span style="font-weight: 600; color: #1f1f1f">5 minutes</span>.
+            Do not share this code with others, including Sila
+            employees.
+          </p>
+          <center>
+
+
+          <p
+            style="
+              margin: 0;
+              margin-top: 60px;
+              font-size: 32px;
+              font-weight: 600;
+              letter-spacing: 25px;
+              color: #01c0c8;
+            "
+          >
+            ${otp_code}
+          </p>
+
+          </center>
+        </div>
+      </div>
+
+      <p
+        style="
+          max-width: 400px;
+          margin: 0 auto;
+          margin-top: 90px;
+          text-align: center;
+          font-weight: 500;
+          color: #8c8c8c;
+        "
+      >
+        Need help? Ask at
+        <a
+          href="mailto:support@silapay.co"
+          style="color: #499fb6; text-decoration: none"
+          >Support@silapay.us</a
+        >
+        or visit our
+        <a
+          href=""
+          target="_blank"
+          style="color: #499fb6; text-decoration: none"
+          >Help Center</a
+        >
+      </p>
+    </main>
+
+    <footer
+      style="
+        width: 100%;
+        max-width: 490px;
+        margin: 20px auto 0;
+        text-align: center;
+        border-top: 1px solid #e6ebf1;
+      "
+    >
+      <p
+        style="
+          margin: 0;
+          margin-top: 40px;
+          font-size: 16px;
+          font-weight: 600;
+          color: #434343;
+        "
+      >
+        SilaPay
+      </p>
+      <p style="margin: 0; margin-top: 8px; color: #434343"></p>
+      <div style="margin: 0; margin-top: 16px">
+        <a href="https://www.facebook.com/getsila" target="_blank" style="display: inline-block">
+          <img
+            width="36px"
+            alt="Facebook"
+            src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
+          />
+        </a>
+        <a
+          href="https://www.instagram.com/get_sila/"
+          target="_blank"
+          style="display: inline-block; margin-left: 8px"
+        >
+          <img
+            width="36px"
+            alt="Instagram"
+            src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
+        /></a>
+        
+       
+      </div>
+      <p style="margin: 0; margin-top: 16px; color: #434343">
+        Copyright © 2022 Sila. All rights reserved.
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
+
+    
+
+
+
+    `, // html body
+  });
+
+  console.log(info3.messageId);
+
+
+}
+
+
 
 app.get("/", function (req, res) {
 
@@ -741,6 +966,7 @@ app.post('/api/v1/add/links', function (req, res) {
  "MID":req.body.MID,
  "Token":maketoken(16),
  "Products_Price":req.body.Products_Price,
+ "Business_Name":req.body.Business_Name,
  "Products_Name":req.body.Products_Name,
  "Client_Email":req.body.Client_Email,
  "Date2":req.body.Date2,
@@ -1570,7 +1796,7 @@ app.post("/api/v1/get/token/id", function (req, res) {
           headers: {accept: 'application/json', 'content-type': 'application/json' , 'Authorization': 'Bearer sk-b3c97293-c109-45df-a38e-60de456206f6'},
           data: {
             title: results[0].Products_Name,
-            description: 'By Sila Pay',
+            description: 'By SilaPay',
             capacity: 1,
             active: true,
             return_url: `http://127.0.0.1:5501//success/?mid=${results[0].MID}`,
@@ -2644,10 +2870,13 @@ app.post("/partners/loc", function (req, res) {
 });
 
 /// developer v1
-
+var moment = require('moment');
 app.post("/v1/SilaPay/devloper/create", function (request, response) {
   var email = request.body.Email;
   var API_KEY = request.body.API_KEY;
+  console.log(API_KEY);
+const cryptr = new Cryptr('2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0');
+const decryptedString232 = cryptr.decrypt(API_KEY);
   var CallBack_URL = request.body.CallBack_URL;
   let token = maketoken(16);
   localStorage.setItem(token, CallBack_URL);
@@ -2668,8 +2897,7 @@ app.post("/v1/SilaPay/devloper/create", function (request, response) {
         } else {
           console.log("The solution is: ", results);
           if (results.length > 0) {
-            const decryptedString = cryptr.decrypt(results[0].Access_Key);
-            if (decryptedString == API_KEY) {
+            if (decryptedString232 == results[0].Access_Key) {
               console.log(results[0]);
               var data = {
                 MID: results[0].Merchant_ID,
@@ -2682,6 +2910,7 @@ app.post("/v1/SilaPay/devloper/create", function (request, response) {
                 Status: "Active",
                 Package: results[0].Package,
                 TAX: results[0].Rate,
+                Business_Name: results[0].Business_Name,
                 CallBack_URL: CallBack_URL,
               };
 
@@ -2710,7 +2939,7 @@ app.post("/v1/SilaPay/devloper/create", function (request, response) {
                       response.send({
                         code: 200,
                         success: "Sucessfully",
-                        link: "https//pay.silapay.com/v1/token=" + token,
+                        link: "https://pay.silapay.co/v1/?token=" + token,
                       });
                     }
                   }
@@ -2740,7 +2969,7 @@ app.post("/v1/SilaPay/devloper/create", function (request, response) {
                       response.send({
                         code: 200,
                         success: "Sucessfully",
-                        link: "https//pay.silapay.com/v2/token=" + token,
+                        link: "https://pay.silapay.co/v2/?token=" + token,
                       });
                     }
                   }

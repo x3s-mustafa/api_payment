@@ -119,7 +119,7 @@ const mc = mysql.createPool({
 const https = require("https");
 const path = require("path");
 
-var port = process.env.PORT || 4000;
+var port = process.env.PORT || 80;
 console.log("Running on port:" + port);
 app.listen(port);
 
@@ -2950,7 +2950,7 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
                           link: "https://pay.silapay.co/v2/?token=" + token,
                         });
                       }
-                      
+
                     }
                   }
                 );

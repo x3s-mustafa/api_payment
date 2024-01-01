@@ -2874,6 +2874,7 @@ var moment = require('moment');
 app.post("/v1/SilaPay/devloper/create", function (request, response) {
   var email = request.body.Email;
   var API_KEY = request.body.API_KEY;
+  var Type = request.body.Type;
   console.log(API_KEY);
 const cryptr = new Cryptr('2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0');
 const decryptedString232 = cryptr.decrypt(API_KEY);
@@ -2902,8 +2903,8 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
               var data = {
                 MID: results[0].Merchant_ID,
                 Token: token,
-                Products_Price: request.body.Products_Price,
-                Products_Name: request.body.Products_Name,
+                Products_Price: request.body.Price,
+                Products_Name: request.body.Title,
                 Client_Email: request.body.Client_Email,
                 Date2: moment().format("l"),
                 Time2: moment().format("LTS"),
@@ -2936,11 +2937,20 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
                     } else {
                       console.log("The solution is: ", results);
                       if (error) throw error;
-                      response.send({
-                        code: 200,
-                        success: "Sucessfully",
-                        link: "https://pay.silapay.co/v1/?token=" + token,
-                      });
+                      if(Type == "3DS"){
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://pay.silapay.co/v1/?token=" + token,
+                        });
+                      }else{
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://pay.silapay.co/v2/?token=" + token,
+                        });
+                      }
+                      
                     }
                   }
                 );
@@ -2966,11 +2976,21 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
                     } else {
                       console.log("The solution is: ", results);
                       if (error) throw error;
-                      response.send({
-                        code: 200,
-                        success: "Sucessfully",
-                        link: "https://pay.silapay.co/v2/?token=" + token,
-                      });
+                      if(Type == "3DS"){
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://pay.silapay.co/v1/?token=" + token,
+                        });
+                      }else{
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://pay.silapay.co/v2/?token=" + token,
+                        });
+
+                      }
+                      
                     }
                   }
                 );

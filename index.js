@@ -7,21 +7,21 @@ const accountSid = "AC8cb91eba53c888ea8f40002738bb9081";
 const authToken = "c6c4260a2d4d24d349b98fa611b3b1e4";
 const client = require("twilio")(accountSid, authToken);
 var http = require("http");
-const LocalStorage = require('node-localstorage').LocalStorage,
-  localStorage = new LocalStorage('./scratch');
+const LocalStorage = require("node-localstorage").LocalStorage,
+  localStorage = new LocalStorage("./scratch");
 const request = require("request");
 const fs = require("fs");
 const cheerio = require("cheerio");
 const axios = require("axios");
 var fetch = require("node-fetch"); // npm install node-fetch
 var util = require("util");
-var Publishable_Key = '#'
-var Secret_Key = '#'
+var Publishable_Key = "#";
+var Secret_Key = "#";
 const stripe = require("stripe")(Secret_Key);
-const DeviceDetector = require('node-device-detector');
-const DeviceHelper   = require('node-device-detector/helper');
-const ClientHints    = require('node-device-detector/client-hints');
-var requestIp = require('request-ip');
+const DeviceDetector = require("node-device-detector");
+const DeviceHelper = require("node-device-detector/helper");
+const ClientHints = require("node-device-detector/client-hints");
+var requestIp = require("request-ip");
 
 app.use(bodyparser.json());
 app.use(
@@ -150,8 +150,9 @@ function makeid(length) {
 console.log(makeid(5));
 
 function maketoken(length) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   let counter = 0;
   while (counter < length) {
@@ -161,20 +162,21 @@ function maketoken(length) {
   return result;
 }
 
-const Cryptr = require('cryptr');
-const cryptr = new Cryptr('2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0');
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(
+  "2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0"
+);
 
-const encryptedString = cryptr.encrypt('4444');
+const encryptedString = cryptr.encrypt("4444");
 const decryptedString = cryptr.decrypt(encryptedString);
 
-console.log(encryptedString); 
-console.log("==================="); 
-console.log(decryptedString); 
+console.log(encryptedString);
+console.log("===================");
+console.log(decryptedString);
 
-async function sendotp(){
-
-  var user = "Devo"
-  var otp_code = "231333"
+async function sendotp() {
+  var user = "Devo";
+  var otp_code = "231333";
   let transporter = nodemailer.createTransport({
     host: "mail.silapay.us",
     port: 465,
@@ -389,14 +391,9 @@ async function sendotp(){
   });
 
   console.log(info3.messageId);
-
-
 }
 
-
-
 app.get("/", function (req, res) {
-
   res.send("Ruuning");
 });
 
@@ -520,7 +517,7 @@ app.post("/api/v1/platform/login", function (request, response) {
             failed: error,
           });
         } else {
-           console.log('The solution is: ', results);
+          console.log("The solution is: ", results);
           if (results.length > 0) {
             const decryptedString = cryptr.decrypt(results[0].Password);
             if (decryptedString == password) {
@@ -554,7 +551,6 @@ app.post("/api/v1/platform/login", function (request, response) {
   }
 });
 
-
 /////  ******** SILA OTP *******  ///////////
 app.post("/api/v1/send/otp", async function (req, res) {
   var origin = req.get("origin");
@@ -565,8 +561,8 @@ app.post("/api/v1/send/otp", async function (req, res) {
   //origin == "https://admin.amwaly.io"
   if (true) {
     let otp_code = makeid(6);
-    localStorage.setItem(token,otp_code)
-    console.log(localStorage.getItem(token))
+    localStorage.setItem(token, otp_code);
+    console.log(localStorage.getItem(token));
     let transporter = nodemailer.createTransport({
       host: "mail.silapay.us",
       port: 465,
@@ -813,20 +809,19 @@ app.post("/api/v1/check/otp", async function (req, res) {
   console.log(origin);
   //origin == "https://admin.amwaly.io"
   if (true) {
-    console.log(localStorage.getItem(token))
-    console.log(otp)
-    if(otp == localStorage.getItem(token)){
+    console.log(localStorage.getItem(token));
+    console.log(otp);
+    if (otp == localStorage.getItem(token)) {
       res.send({
         code: 200,
-        results:"Verify",
+        results: "Verify",
       });
-    }else{
+    } else {
       res.send({
         code: 400,
-        results:"error",
+        results: "error",
       });
     }
-    
   } else {
     res.send({
       code: 400,
@@ -839,7 +834,7 @@ app.post("/api/v1/check/otp", async function (req, res) {
 app.post("/api/v1/get/transactions", function (req, res) {
   var origin = req.get("origin");
   console.log(origin);
-//  origin == "https://admin.amwaly.io"
+  //  origin == "https://admin.amwaly.io"
   if (true) {
     let data = {
       MID: req.body.MID,
@@ -862,73 +857,60 @@ app.post("/api/v1/get/transactions", function (req, res) {
     });
   }
 });
-app.post('/api/v1/add/transactions', function (req, res) {
-
-  
+app.post("/api/v1/add/transactions", function (req, res) {
   var data = {
+    Payment_ID: req.body.Payment_ID,
+    Amount: req.body.Amount,
+    Currency: req.body.Currency,
+    Status: req.body.Status,
+    Client_City: req.body.Client_City,
+    Client_Country: req.body.Client_Country,
+    Client_Line1: req.body.Client_Line1,
+    Client_Line2: req.body.Client_Line2,
+    Client_Email: req.body.Client_Email,
+    Client_name: req.body.Client_name,
+    Payment_Type: req.body.Payment_Type,
+    Payment_Risk_level: req.body.Payment_Risk_level,
+    Card_Brand: req.body.Payment_Reason,
+    Card_Country: req.body.Payment_Reason,
+    Card_Exp_month: req.body.Payment_Reason,
+    Card_Exp_year: req.body.Payment_Reason,
+    Card_Last4: req.body.Payment_Reason,
+    MID: req.body.Payment_Reason,
+    "SILA_ID	": req.body.Payment_Reason,
+    Date2: req.body.Payment_Reason,
+    Date2: req.body.Payment_Reason,
+    Time2: req.body.Payment_Reason,
+  };
 
- "Payment_ID":req.body.Payment_ID,
- "Amount":req.body.Amount,
- "Currency":req.body.Currency,
- "Status":req.body.Status,
- "Client_City":req.body.Client_City,
- "Client_Country":req.body.Client_Country,
- "Client_Line1":req.body.Client_Line1,
- "Client_Line2":req.body.Client_Line2,
- "Client_Email":req.body.Client_Email,
- "Client_name":req.body.Client_name,
- "Payment_Type":req.body.Payment_Type,
- "Payment_Risk_level":req.body.Payment_Risk_level,
- "Card_Brand":req.body.Payment_Reason,
- "Card_Country":req.body.Payment_Reason,
- "Card_Exp_month":req.body.Payment_Reason,
- "Card_Exp_year":req.body.Payment_Reason,
- "Card_Last4":req.body.Payment_Reason,
- "MID":req.body.Payment_Reason,
- "SILA_ID	":req.body.Payment_Reason,
- "Date2":req.body.Payment_Reason,
- "Date2":req.body.Payment_Reason,
- "Time2":req.body.Payment_Reason,
+  mc.query(
+    "INSERT INTO transactions SET ?",
+    data,
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          code: 400,
+          failed: error,
+        });
 
-
- 
-
-}
-
-
-
-mc.query('INSERT INTO transactions SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        try {
+        } catch (err) {
+          if (err.code === "ER_DUP_ENTRY") {
             //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
-        } else {
+          } else {
             //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "success": "answers registered sucessfully"
-     });
- }
-});
-
-
-
-
-
+          }
+        }
+      } else {
+        console.log("The solution is: ", results);
+        if (error) throw error;
+        res.send({
+          code: 200,
+          success: "answers registered sucessfully",
+        });
+      }
+    }
+  );
 });
 
 /////  ******** SILA payment links *******  ///////////
@@ -958,60 +940,49 @@ app.post("/api/v1/get/links", function (req, res) {
     });
   }
 });
-app.post('/api/v1/add/links', function (req, res) {
-
-  
+app.post("/api/v1/add/links", function (req, res) {
   var data = {
+    MID: req.body.MID,
+    Token: maketoken(16),
+    Products_Price: req.body.Products_Price,
+    Business_Name: req.body.Business_Name,
+    Products_Name: req.body.Products_Name,
+    Client_Email: req.body.Client_Email,
+    Date2: req.body.Date2,
+    Time2: req.body.Time2,
+    Status: "Active",
+    Package: req.body.Package,
+    TAX: req.body.Package,
+  };
 
- "MID":req.body.MID,
- "Token":maketoken(16),
- "Products_Price":req.body.Products_Price,
- "Business_Name":req.body.Business_Name,
- "Products_Name":req.body.Products_Name,
- "Client_Email":req.body.Client_Email,
- "Date2":req.body.Date2,
- "Time2":req.body.Time2,
- "Status":"Active",
- "Package":req.body.Package,
- "TAX":req.body.Package,
+  mc.query(
+    "INSERT INTO payment_links SET ?",
+    data,
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          code: 400,
+          failed: error,
+        });
 
-
-}
-
-
-
-mc.query('INSERT INTO payment_links SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        try {
+        } catch (err) {
+          if (err.code === "ER_DUP_ENTRY") {
             //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
-        } else {
+          } else {
             //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "success": "Sucessfully"
-     });
- }
-});
-
-
-
-
-
+          }
+        }
+      } else {
+        console.log("The solution is: ", results);
+        if (error) throw error;
+        res.send({
+          code: 200,
+          success: "Sucessfully",
+        });
+      }
+    }
+  );
 });
 
 /////  ******** SILA Refunds *******  ///////////
@@ -1041,71 +1012,55 @@ app.post("/api/v1/get/refunds", function (req, res) {
     });
   }
 });
-app.post('/api/v1/add/refunds', function (req, res) {
-
-  
+app.post("/api/v1/add/refunds", function (req, res) {
   var data = {
+    MID: "#" + req.body.MID,
+    SILA_ID: req.body.SILA_ID,
+    Payment_ID: req.body.Payment_ID,
+    Payment_Amount: req.body.Payment_Amount,
+    Card_Brand: req.body.Card_Brand,
+    Card_Country: req.body.Card_Country,
+    Card_Exp_month: req.body.Card_Exp_month,
+    Card_Exp_year: req.body.Card_Exp_year,
+    Card_Last4: req.body.Card_Last4,
+    Payment_Date: req.body.Payment_Date,
+    Payment_Time: req.body.Payment_Time,
+    Client_Full_Name: req.body.Client_Full_Name,
+    Client_Email: req.body.Client_Email,
+    Refund_Date: req.body.Refund_Date,
+    Refund_Time: req.body.Refund_Time,
+    Refund_Reason: "non",
+    Status: "in review",
+  };
 
- "MID":"#"+req.body.MID,
- "SILA_ID":req.body.SILA_ID,
- "Payment_ID":req.body.Payment_ID,
- "Payment_Amount":req.body.Payment_Amount,
- "Card_Brand":req.body.Card_Brand,
- "Card_Country":req.body.Card_Country,
- "Card_Exp_month":req.body.Card_Exp_month,
- "Card_Exp_year":req.body.Card_Exp_year,
- "Card_Last4":req.body.Card_Last4,
- "Payment_Date":req.body.Payment_Date,
- "Payment_Time":req.body.Payment_Time,
- "Client_Full_Name":req.body.Client_Full_Name,
- "Client_Email":req.body.Client_Email,
- "Refund_Date":req.body.Refund_Date,
- "Refund_Time":req.body.Refund_Time,
- "Refund_Reason":"non",
- "Status":"in review",
+  mc.query(
+    "INSERT INTO refunds SET ?",
+    data,
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          code: 400,
+          failed: error,
+        });
 
-
-
-
-
- 
-
-}
-
-
-
-mc.query('INSERT INTO refunds SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        try {
+        } catch (err) {
+          if (err.code === "ER_DUP_ENTRY") {
             //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
-        } else {
+          } else {
             //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "success": "sucessfully"
-     });
- }
-});
-
-
-
-
-
+          }
+        }
+      } else {
+        console.log("The solution is: ", results);
+        if (error) throw error;
+        res.send({
+          code: 200,
+          success: "sucessfully",
+        });
+      }
+    }
+  );
 });
 
 /////  ******** SILA Settlements *******  ///////////
@@ -1135,66 +1090,48 @@ app.post("/api/v1/get/Settlements", function (req, res) {
     });
   }
 });
-app.post('/api/v1/add/Settlements', function (req, res) {
-
-  
+app.post("/api/v1/add/Settlements", function (req, res) {
   var data = {
+    SID: maketoken(16),
+    MID: req.body.MID,
+    Amount: req.body.Amount,
+    Payout_Type: req.body.Payout_Type,
+    Date2: req.body.Date2,
+    Time2: req.body.Time2,
+    SBP: req.body.SBP,
+    Status: "in Review",
+    Note: "#",
+  };
 
- "SID":maketoken(16),
- "MID":req.body.MID,
- "Amount":req.body.Amount,
- "Payout_Type":req.body.Payout_Type,
- "Date2":req.body.Date2,
- "Time2":req.body.Time2,
- "SBP":req.body.SBP,
- "Status":"in Review",
- "Note":"#",
+  mc.query(
+    "INSERT INTO withdrawls SET ?",
+    data,
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          code: 400,
+          failed: error,
+        });
 
-
-
-
-
-
- 
-
-}
-
-
-
-mc.query('INSERT INTO withdrawls SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        try {
+        } catch (err) {
+          if (err.code === "ER_DUP_ENTRY") {
             //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
-        } else {
+          } else {
             //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "success": "answers registered sucessfully"
-     });
- }
+          }
+        }
+      } else {
+        console.log("The solution is: ", results);
+        if (error) throw error;
+        res.send({
+          code: 200,
+          success: "answers registered sucessfully",
+        });
+      }
+    }
+  );
 });
-
-
-
-
-
-});
-
 
 /////  ******** SILA Clients *******  ///////////
 app.post("/api/v1/get/clients", function (req, res) {
@@ -1254,7 +1191,6 @@ app.post("/api/v1/get/Notification", function (req, res) {
 
 /////  ******** SILA Logs *******  ///////////
 app.post("/api/v1/get/Logs", function (req, res) {
-  
   var origin = req.get("origin");
   console.log(origin);
   //origin == "https://admin.amwaly.io"
@@ -1280,79 +1216,64 @@ app.post("/api/v1/get/Logs", function (req, res) {
     });
   }
 });
-app.post('/api/v1/add/Logs', function (req, res) {
-
+app.post("/api/v1/add/Logs", function (req, res) {
   const detector = new DeviceDetector({
     clientIndexes: true,
     deviceIndexes: true,
     deviceAliasCode: false,
-   
   });
-  
+
   const clientHints = new ClientHints();
-  const userAgent = req.headers['user-agent'];
+  const userAgent = req.headers["user-agent"];
   console.log(req.headers);
- 
+
   const clientHintData = clientHints.parse(req.headers);
   console.log(clientHintData);
   // added for 2.0.4 version or later
   const result = detector.detect(userAgent, clientHintData);
-  console.log(result['os'] + result['client']['type'] + + result['client']['name'])
+  console.log(
+    result["os"] + result["client"]["type"] + +result["client"]["name"]
+  );
 
   var clientIp = requestIp.getClientIp(req);
-  console.log(clientIp)
+  console.log(clientIp);
   var data = {
+    MID: req.body.MID,
+    Date2: req.body.Date2,
+    Time2: req.body.Time2,
+    Device:
+      result["os"]["name"] +
+      "OS | " +
+      result["client"]["type"] +
+      " | " +
+      result["client"]["name"],
+    IP: clientIp,
+  };
 
- "MID":req.body.MID,
- "Date2":req.body.Date2,
- "Time2":req.body.Time2,
- "Device":result['os']['name'] + "OS | " +result['client']['type'] + " | " + result['client']['name'],
- "IP":clientIp,
- 
+  mc.query("INSERT INTO logos SET ?", data, function (error, results, fields) {
+    if (error) {
+      res.send({
+        code: 400,
+        failed: error,
+      });
 
-
-
-
-
-
- 
-
-}
-
-
-
-mc.query('INSERT INTO logos SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
-            //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
+      try {
+      } catch (err) {
+        if (err.code === "ER_DUP_ENTRY") {
+          //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
         } else {
-            //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "success": "Sucessfully"
-     });
- }
-});
-
-
-
-
-
+          //handleHttpErrors(err.message);
+        }
+      }
+    } else {
+      console.log("The solution is: ", results);
+      if (error) throw error;
+      res.send({
+        code: 200,
+        success: "Sucessfully",
+      });
+    }
+  });
 });
 
 /////  ******** SILA Bank *******  ///////////
@@ -1400,10 +1321,10 @@ app.post("/api/v1/rest/password", async function (req, res) {
         return res.send(error);
       } else {
         console.log(data);
-        if(results.length > 0 ){
+        if (results.length > 0) {
           let email_token = maketoken(20);
-          localStorage.setItem(email_token,data.email)
-          console.log(localStorage.getItem(email_token))
+          localStorage.setItem(email_token, data.email);
+          console.log(localStorage.getItem(email_token));
           let transporter = nodemailer.createTransport({
             host: "mail.silapay.us",
             port: 465,
@@ -1413,7 +1334,7 @@ app.post("/api/v1/rest/password", async function (req, res) {
               pass: "1997223mnmn@S", // generated ethereal password
             },
           });
-      
+
           let info3 = await transporter.sendMail({
             from: '"SILA PAY" <support@silapay.us>', // sender address
             to: `${data.email}`, // list of receivers ${emailid}
@@ -1642,13 +1563,12 @@ app.post("/api/v1/rest/password", async function (req, res) {
             code: 200,
             id: info3.messageId,
           });
-        }else{
+        } else {
           res.send({
             code: 550,
             failed: "User unknown",
           });
         }
-       
       }
     });
   } else {
@@ -1664,7 +1584,6 @@ app.post("/api/v1/set/password", async function (req, res) {
   var password = req.body.password;
   //origin == "https://admin.amwaly.io"
   if (true) {
-  
     //
     let sql1 = ` UPDATE users SET Password = '${password}' WHERE Email = '${token}';`;
     mc.query(sql1, function (error, results, fields) {
@@ -1675,25 +1594,20 @@ app.post("/api/v1/set/password", async function (req, res) {
           failed: "Access",
         });
       } else {
-      
-        if(results.affectedRows == 1){
+        if (results.affectedRows == 1) {
           return res.send({
             code: 200,
-            dats:results,
-            results:"successfully",
+            dats: results,
+            results: "successfully",
           });
-        }else{
+        } else {
           return res.send({
             code: 550,
             failed: "Access",
           });
         }
-       
       }
     });
-
-   
-    
   } else {
     res.send({
       code: 400,
@@ -1714,40 +1628,43 @@ app.post("/pay", function (req, res) {
       Email: req.body.Email,
       Amount: req.body.Amount,
       Title: req.body.Title,
-     
     };
 
-    const axios = require('axios');
+    const axios = require("axios");
 
     const options = {
-      method: 'POST',
-      url: 'https://business.mamopay.com/manage_api/v1/links',
-      headers: {accept: 'application/json', 'content-type': 'application/json' , 'Authorization': 'Bearer sk-b3c97293-c109-45df-a38e-60de456206f6'},
+      method: "POST",
+      url: "https://business.mamopay.com/manage_api/v1/links",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        Authorization: "Bearer sk-b3c97293-c109-45df-a38e-60de456206f6",
+      },
       data: {
         title: data.Title,
-        description: 'By Sila Pay',
+        description: "By Sila Pay",
         capacity: 1,
         active: true,
-        return_url: 'https://www.google.iq/?gws_rd=ssl',
-        failure_return_url: 'https://www.google.iq/?gws_rd=ssl',
+        return_url: "https://www.google.iq/?gws_rd=ssl",
+        failure_return_url: "https://www.google.iq/?gws_rd=ssl",
         processing_fee_percentage: 3,
         amount: 4,
         first_name: data.First_Name,
         last_name: data.Last_Name,
         email: data.Email,
-        amount_currency: 'USD',
+        amount_currency: "USD",
         is_widget: true,
         enable_tabby: false,
         enable_message: false,
         enable_tips: false,
-        save_card: 'off',
+        save_card: "off",
         enable_customer_details: true,
         enable_quantity: false,
         enable_qr_code: false,
-        send_customer_receipt: false
-      }
+        send_customer_receipt: false,
+      },
     };
-    
+
     axios
       .request(options)
       .then(function (response) {
@@ -1760,8 +1677,6 @@ app.post("/pay", function (req, res) {
       .catch(function (error) {
         console.error(error);
       });
-
-  
   } else {
     res.send({
       code: 400,
@@ -1789,14 +1704,18 @@ app.post("/api/v1/get/token/id", function (req, res) {
         return res.send(error);
       } else {
         console.log(data);
-        const axios = require('axios');
+        const axios = require("axios");
         const options = {
-          method: 'POST',
-          url: 'https://business.mamopay.com/manage_api/v1/links',
-          headers: {accept: 'application/json', 'content-type': 'application/json' , 'Authorization': 'Bearer sk-b3c97293-c109-45df-a38e-60de456206f6'},
+          method: "POST",
+          url: "https://business.mamopay.com/manage_api/v1/links",
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            Authorization: "Bearer sk-b3c97293-c109-45df-a38e-60de456206f6",
+          },
           data: {
             title: results[0].Products_Name,
-            description: 'By SilaPay',
+            description: "By SilaPay",
             capacity: 1,
             active: true,
             return_url: `http://127.0.0.1:5501//success/?mid=${results[0].MID}`,
@@ -1806,19 +1725,19 @@ app.post("/api/v1/get/token/id", function (req, res) {
             first_name: data.First_Name,
             last_name: data.Last_Name,
             email: data.Email,
-            amount_currency: 'USD',
+            amount_currency: "USD",
             is_widget: true,
             enable_tabby: false,
             enable_message: false,
             enable_tips: false,
-            save_card: 'off',
+            save_card: "off",
             enable_customer_details: true,
             enable_quantity: false,
             enable_qr_code: false,
-            send_customer_receipt: false
-          }
+            send_customer_receipt: false,
+          },
         };
-        
+
         axios
           .request(options)
           .then(function (response) {
@@ -1831,9 +1750,6 @@ app.post("/api/v1/get/token/id", function (req, res) {
           .catch(function (error) {
             console.error(error);
           });
-        
-      
-        
       }
     });
   } else {
@@ -1844,17 +1760,15 @@ app.post("/api/v1/get/token/id", function (req, res) {
   }
 });
 
-const API_KEY = 'b824922aaa6d46cd9a5ce983a2b68d6b';
-const URL = 'https://api.ipgeolocation.io/ipgeo?apiKey=' + API_KEY;
+const API_KEY = "b824922aaa6d46cd9a5ce983a2b68d6b";
+const URL = "https://api.ipgeolocation.io/ipgeo?apiKey=" + API_KEY;
 const sendAPIRequest = async (ipAddress) => {
   const apiResponse = await axios.get(URL + "&ip=" + ipAddress);
   return apiResponse.data;
-}
+};
 /// posts
 
 app.post("/payment", async function (req, res) {
-  
-
   // Credit Card
   var cardnum = req.body.cardnum;
   var cardexp_month = req.body.cardexp_month;
@@ -1869,7 +1783,6 @@ app.post("/payment", async function (req, res) {
   var MID = req.body.MID;
   var Date2 = req.body.Date2;
   var Time2 = req.body.Time2;
-
 
   const ip = requestIp.getClientIp(req);
   console.log(ip); // ip address of the user
@@ -1899,8 +1812,7 @@ app.post("/payment", async function (req, res) {
             postal_code: billing_postcode,
             state: billing_state,
           },
-          email:
-          email,
+          email: email,
           name: customer_surname + " " + customer_givenName,
           phone: customer_phonenumber,
         },
@@ -1909,7 +1821,6 @@ app.post("/payment", async function (req, res) {
           exp_month: cardexp_month,
           exp_year: cardexp_year,
           cvc: cardcvc,
-         
         },
       })
       .then(async (paymentMethod) => {
@@ -1920,37 +1831,29 @@ app.post("/payment", async function (req, res) {
           payment_method_types: ["card"],
         });
 
-     
-        
         var data = {
-
-          "Payment_ID":paymentIntent["client_secret"],
-          "Amount":Amount,
-          "Currency":"USD",
-          "Status":"Successfully",
-          "Client_City":billing_city,
-          "Client_Country":billing_country,
-          "Client_Line1":billing_street1,
-          "Client_Line2":"",
-          "Client_Email":email,
-          "Client_name":customer_surname + " " + customer_givenName,
-          "Payment_Type":"Purchase",
-          "Payment_Risk_level":"Normal",
-          "Card_Brand":"req.body.Payment_Reason",
-          "Card_Country":"req.body.Payment_Reason",
-          "Card_Exp_month":"req.body.Payment_Reason",
-          "Card_Exp_year":"req.body.Payment_Reason",
-          "Card_Last4":"req.body.Payment_Reason",
-          "MID":MID,
-          "SILA_ID":paymentIntent["id"].substring(3),
-          "Date2":Date2,
-          "Time2":Time2,
-         
-         
-          
-         
-         }
-         
+          Payment_ID: paymentIntent["client_secret"],
+          Amount: Amount,
+          Currency: "USD",
+          Status: "Successfully",
+          Client_City: billing_city,
+          Client_Country: billing_country,
+          Client_Line1: billing_street1,
+          Client_Line2: "",
+          Client_Email: email,
+          Client_name: customer_surname + " " + customer_givenName,
+          Payment_Type: "Purchase",
+          Payment_Risk_level: "Normal",
+          Card_Brand: "req.body.Payment_Reason",
+          Card_Country: "req.body.Payment_Reason",
+          Card_Exp_month: "req.body.Payment_Reason",
+          Card_Exp_year: "req.body.Payment_Reason",
+          Card_Last4: "req.body.Payment_Reason",
+          MID: MID,
+          SILA_ID: paymentIntent["id"].substring(3),
+          Date2: Date2,
+          Time2: Time2,
+        };
 
         mc.query(
           "INSERT INTO transactions SET ?",
@@ -2017,7 +1920,6 @@ app.post("/api/v2/get/token/id", function (req, res) {
           results: results,
         });
       }
-
     });
   } else {
     res.send({
@@ -2030,7 +1932,7 @@ app.post("/api/v2/get/token/id", function (req, res) {
 app.post("/create", async (req, res) => {
   var Amount = req.body.Amount;
 
-  console.log(Amount)
+  console.log(Amount);
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: (parseFloat(Amount) * 100).toFixed(0), // USD*100
@@ -2047,87 +1949,78 @@ app.post("/create", async (req, res) => {
 });
 
 app.post("/check", async function (req, res) {
-  console.log("check req")
+  console.log("check req");
   var id = req.body.id;
   var MID = req.body.MID;
   var Date2 = req.body.Date2;
   var Time2 = req.body.Time2;
-  let sild_id = maketoken(20)
+  let sild_id = maketoken(20);
 
-  const paymentIntent = await stripe.paymentIntents.retrieve(
-    id
-  );
-  console.log(paymentIntent)
-  const charge = await stripe.charges.retrieve(
-    paymentIntent['latest_charge']
-  );
-  console.log(charge)
+  const paymentIntent = await stripe.paymentIntents.retrieve(id);
+  console.log(paymentIntent);
+  const charge = await stripe.charges.retrieve(paymentIntent["latest_charge"]);
+  console.log(charge);
   var data = {
+    Payment_ID: charge["payment_intent"],
+    Amount: parseFloat(charge["amount"] / 100).toFixed(2),
+    Currency: charge["currency"],
+    Status: "Successfully",
+    Client_City: charge["billing_details"]["address"]["city"],
+    Client_Country: charge["billing_details"]["address"]["country"],
+    Client_Line1: charge["billing_details"]["address"]["line1"],
+    Client_Line2: charge["billing_details"]["address"]["line2"],
+    Client_Email: charge["billing_details"]["email"],
+    Client_name: charge["billing_details"]["name"],
+    Payment_Type: charge["outcome"]["type"],
+    Payment_Reason: "non",
+    Payment_Risk_level:
+      charge["outcome"]["risk_level"] + " - " + charge["outcome"]["risk_score"],
+    Card_Brand: charge["payment_method_details"]["card"]["brand"],
+    Card_Country: charge["payment_method_details"]["card"]["country"],
+    Card_Exp_month: charge["payment_method_details"]["card"]["exp_month"],
+    Card_Exp_year: charge["payment_method_details"]["card"]["exp_year"],
+    Card_Last4: charge["payment_method_details"]["card"]["last4"],
+    MID: MID,
+    SILA_ID: charge["payment_intent"].substring(3),
+    Date2: Date2,
+    Time2: Time2,
+  };
 
-    "Payment_ID":charge['payment_intent'],
-    "Amount":parseFloat(charge['amount'] / 100).toFixed(2),
-    "Currency":charge['currency'],
-    "Status":"Successfully",
-    "Client_City":charge['billing_details']['address']['city'],
-    "Client_Country":charge['billing_details']['address']['country'],
-    "Client_Line1":charge['billing_details']['address']['line1'],
-    "Client_Line2":charge['billing_details']['address']['line2'],
-    "Client_Email":charge['billing_details']['email'],
-    "Client_name":charge['billing_details']['name'],
-    "Payment_Type":charge['outcome']['type'],
-    "Payment_Reason":"non",
-    "Payment_Risk_level":charge['outcome']['risk_level'] + " - " + charge['outcome']['risk_score'] ,
-    "Card_Brand":charge['payment_method_details']['card']['brand'],
-    "Card_Country":charge['payment_method_details']['card']['country'],
-    "Card_Exp_month":charge['payment_method_details']['card']['exp_month'],
-    "Card_Exp_year":charge['payment_method_details']['card']['exp_year'],
-    "Card_Last4":charge['payment_method_details']['card']['last4'],
-    "MID":MID,
-    "SILA_ID":charge['payment_intent'].substring(3),
-    "Date2":Date2,
-    "Time2":Time2,
-   
-   
-    
-   
-   }
- 
-   mc.query('INSERT INTO transactions SET ?', data, function (error, results, fields) {
-    console.log(data)
-    if (error) {
-   
+  mc.query(
+    "INSERT INTO transactions SET ?",
+    data,
+    function (error, results, fields) {
+      console.log(data);
+      if (error) {
         res.send({
-            "code": 400,
-            "id": charge['payment_intent'].substring(3)
+          code: 400,
+          id: charge["payment_intent"].substring(3),
         });
-   
+
         try {
-            
         } catch (err) {
-           if (err.code === 'ER_DUP_ENTRY') {
+          if (err.code === "ER_DUP_ENTRY") {
             res.send({
-              "code": 400,
-              "id": charge['payment_intent'].substring(3)
-          });
-           } else {
+              code: 400,
+              id: charge["payment_intent"].substring(3),
+            });
+          } else {
             res.send({
-              "code": 400,
-              "id": charge['payment_intent'].substring(3)
-          });
-            }
+              code: 400,
+              id: charge["payment_intent"].substring(3),
+            });
+          }
         }
-   
-    } else {
-        console.log('The solution is: ', results);
+      } else {
+        console.log("The solution is: ", results);
         if (error) throw error;
         res.send({
-            "code": 200,
-            "id": charge['payment_intent'].substring(3)
+          code: 200,
+          id: charge["payment_intent"].substring(3),
         });
+      }
     }
-   });
-
-   
+  );
 });
 
 app.post("/v2/check", async function (req, res) {
@@ -2135,7 +2028,7 @@ app.post("/v2/check", async function (req, res) {
   var id = req.body.id;
   var Date2 = req.body.Date2;
   var Time2 = req.body.Time2;
-  let sild_id = maketoken(20)
+  let sild_id = maketoken(20);
 
   const ip = requestIp.getClientIp(req);
   console.log(ip); // ip address of the user
@@ -2146,13 +2039,12 @@ app.post("/v2/check", async function (req, res) {
   var billing_street1 = `${ipAddressInformation.country_name},${ipAddressInformation.city}`;
   var billing_city = ipAddressInformation.city;
   var billing_state = ipAddressInformation.city;
- 
 
   const axios = require("axios");
 
   const options = {
     method: "GET",
-    url: "https://business.mamopay.com/manage_api/v1/charges/"+id,
+    url: "https://business.mamopay.com/manage_api/v1/charges/" + id,
     headers: {
       accept: "application/json",
       Authorization: "Bearer sk-b3c97293-c109-45df-a38e-60de456206f6",
@@ -2164,130 +2056,111 @@ app.post("/v2/check", async function (req, res) {
     .then(function (response) {
       console.log(response.data);
       var data = {
+        Payment_ID: response.data.id,
+        Amount: response.data.amount,
+        Currency: response.data.amount_currency,
+        Status: "Successfully",
+        Client_City: billing_city,
+        Client_Country: billing_country,
+        Client_Line1: billing_street1,
+        Client_Line2: billing_state,
+        Client_Email: response.data.customer_details.email,
+        Client_name: response.data.payment_method.card_holder_name,
+        Payment_Type: response.data.status,
+        Payment_Risk_level: "Normal",
+        Card_Brand: response.data.payment_method.type,
+        Card_Country: response.data.payment_method.origin,
+        Card_Exp_month: "#",
+        Card_Exp_year: "#",
+        Card_Last4: response.data.payment_method.card_last4,
+        MID: MID,
+        SILA_ID: sild_id,
+        Date2: Date2,
+        Time2: Time2,
+      };
 
-        "Payment_ID":response.data.id,
-        "Amount":response.data.amount,
-        "Currency":response.data.amount_currency,
-        "Status":"Successfully",
-        "Client_City":billing_city,
-        "Client_Country":billing_country,
-        "Client_Line1":billing_street1,
-        "Client_Line2":billing_state,
-        "Client_Email":response.data.customer_details.email,
-        "Client_name":response.data.payment_method.card_holder_name,
-        "Payment_Type":response.data.status,
-        "Payment_Risk_level":"Normal",
-        "Card_Brand":response.data.payment_method.type,
-        "Card_Country":response.data.payment_method.origin,
-        "Card_Exp_month":"#",
-        "Card_Exp_year":"#",
-        "Card_Last4":response.data.payment_method.card_last4,
-        "MID":MID,
-        "SILA_ID":sild_id,
-        "Date2":Date2,
-        "Time2":Time2,
-       
-       
-        
-       
-       }
-    
-       mc.query('INSERT INTO transactions SET ?', data, function (error, results, fields) {
-        if (error) {
-       
+      mc.query(
+        "INSERT INTO transactions SET ?",
+        data,
+        function (error, results, fields) {
+          if (error) {
             res.send({
-                "code": 400,
-                "failed": response.data.id
+              code: 400,
+              failed: response.data.id,
             });
-       
+
             try {
-                
             } catch (err) {
-               if (err.code === 'ER_DUP_ENTRY') {
+              if (err.code === "ER_DUP_ENTRY") {
                 res.send({
-                  "code": 400,
-                  "failed": response.data.id
-              });
-               } else {
+                  code: 400,
+                  failed: response.data.id,
+                });
+              } else {
                 res.send({
-                  "code": 400,
-                  "failed": response.data.id
-              });
-                }
+                  code: 400,
+                  failed: response.data.id,
+                });
+              }
             }
-       
-        } else {
-            console.log('The solution is: ', results);
+          } else {
+            console.log("The solution is: ", results);
             if (error) throw error;
             res.send({
-                "code": 200,
-                "id": sild_id
+              code: 200,
+              id: sild_id,
             });
+          }
         }
-       });
+      );
     })
     .catch(function (error) {
       console.error(error);
     });
-
- 
-
-   
 });
-app.post('/partners/create', function (req, res) {
-
-  
+app.post("/partners/create", function (req, res) {
   const PASSWORD = cryptr.encrypt(req.body.PASSWORD);
   var data = {
+    PROME_CODE: maketoken(5),
+    FULL_NAME: req.body.FULL_NAME,
+    EMAIL: req.body.EMAIL,
+    PHONE_NUMBER: req.body.PHONE_NUMBER,
+    COUNTRY: req.body.COUNTRY,
+    CITY: req.body.CITY,
+    SMAL: req.body.SMAL,
+    PASSWORD: PASSWORD,
+    TIME2: req.body.TIME2,
+    DATE2: req.body.DATE2,
+  };
 
- "PROME_CODE":maketoken(5),
- "FULL_NAME":req.body.FULL_NAME,
- "EMAIL":req.body.EMAIL,
- "PHONE_NUMBER":req.body.PHONE_NUMBER,
- "COUNTRY":req.body.COUNTRY,
- "CITY":req.body.CITY,
- "SMAL":req.body.SMAL,
- "PASSWORD":PASSWORD,
- "TIME2":req.body.TIME2,
- "DATE2":req.body.DATE2,
+  mc.query(
+    "INSERT INTO partners SET ?",
+    data,
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          code: 400,
+          failed: error,
+        });
 
-
-}
-
-
-
-mc.query('INSERT INTO partners SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        try {
+        } catch (err) {
+          if (err.code === "ER_DUP_ENTRY") {
             //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
-        } else {
+          } else {
             //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "success": "Sucessfully"
-     });
- }
-});
-
-
-
-
-
+          }
+        }
+      } else {
+        console.log("The solution is: ", results);
+        if (error) throw error;
+        res.send({
+          code: 200,
+          success: "Sucessfully",
+        });
+      }
+    }
+  );
 });
 app.post("/partners/login", function (request, response) {
   var email = request.body.email;
@@ -2308,7 +2181,7 @@ app.post("/partners/login", function (request, response) {
             failed: error,
           });
         } else {
-           console.log('The solution is: ', results);
+          console.log("The solution is: ", results);
           if (results.length > 0) {
             const decryptedString = cryptr.decrypt(results[0].PASSWORD);
             if (decryptedString == password) {
@@ -2342,7 +2215,6 @@ app.post("/partners/login", function (request, response) {
   }
 });
 app.post("/partners/balance", function (req, res) {
-  
   var origin = req.get("origin");
   console.log(origin);
   //origin == "https://admin.amwaly.io"
@@ -2397,65 +2269,52 @@ app.post("/partners/Visiters", function (req, res) {
   }
 });
 
-app.post('/Tiktok/create/transfer', function (req, res) {
-
-  
+app.post("/Tiktok/create/transfer", function (req, res) {
   let stid = makeid(15);
   var data = {
+    Full_name: req.body.Full_name,
+    Email: req.body.Email,
+    Phone_No: req.body.Phone_No,
+    Country: req.body.Country,
+    Amount: req.body.Amount,
+    Passport: req.body.Passport,
+    Tiktok_invoice: req.body.Tiktok_invoice,
+    way: req.body.way,
+    Date2: req.body.Date2,
+    Time2: req.body.Time2,
+    TID: req.body.TID,
+    STID: stid,
+  };
 
- "Full_name":req.body.Full_name,
- "Email":req.body.Email,
- "Phone_No":req.body.Phone_No,
- "Country":req.body.Country,
- "Amount":req.body.Amount,
- "Passport":req.body.Passport,
- "Tiktok_invoice":req.body.Tiktok_invoice,
- "way":req.body.way,
- "Date2":req.body.Date2,
- "Time2":req.body.Time2,
- "TID":req.body.TID,
- "STID":stid,
+  mc.query(
+    "INSERT INTO tiktok_transfer SET ?",
+    data,
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          code: 400,
+          failed: error,
+        });
 
- 
-
-
-}
-
-
-
-mc.query('INSERT INTO tiktok_transfer SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        try {
+        } catch (err) {
+          if (err.code === "ER_DUP_ENTRY") {
             //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
-        } else {
+          } else {
             //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "STID": stid,
-         "success": "Sucessfully"
-     });
- }
-});
-
-
-
-
-
+          }
+        }
+      } else {
+        console.log("The solution is: ", results);
+        if (error) throw error;
+        res.send({
+          code: 200,
+          STID: stid,
+          success: "Sucessfully",
+        });
+      }
+    }
+  );
 });
 
 app.post("/Tiktok/pay", function (req, res) {
@@ -2472,15 +2331,19 @@ app.post("/Tiktok/pay", function (req, res) {
       STID: req.body.STID,
     };
 
-    const axios = require('axios');
+    const axios = require("axios");
 
     const options = {
-      method: 'POST',
-      url: 'https://business.mamopay.com/manage_api/v1/links',
-      headers: {accept: 'application/json', 'content-type': 'application/json' , 'Authorization': 'Bearer sk-b3c97293-c109-45df-a38e-60de456206f6'},
+      method: "POST",
+      url: "https://business.mamopay.com/manage_api/v1/links",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        Authorization: "Bearer sk-b3c97293-c109-45df-a38e-60de456206f6",
+      },
       data: {
         title: data.Title,
-        description: 'By Sila Pay',
+        description: "By Sila Pay",
         capacity: 1,
         active: true,
         return_url: `http://127.0.0.1:5501/success/?mid=${data.STID}`,
@@ -2490,19 +2353,19 @@ app.post("/Tiktok/pay", function (req, res) {
         first_name: data.First_Name,
         last_name: data.Last_Name,
         email: data.Email,
-        amount_currency: 'USD',
+        amount_currency: "USD",
         is_widget: true,
         enable_tabby: false,
         enable_message: false,
         enable_tips: false,
-        save_card: 'off',
+        save_card: "off",
         enable_customer_details: true,
         enable_quantity: false,
         enable_qr_code: false,
-        send_customer_receipt: false
-      }
+        send_customer_receipt: false,
+      },
     };
-    
+
     axios
       .request(options)
       .then(function (response) {
@@ -2515,8 +2378,6 @@ app.post("/Tiktok/pay", function (req, res) {
       .catch(function (error) {
         console.error(error);
       });
-
-  
   } else {
     res.send({
       code: 400,
@@ -2529,7 +2390,7 @@ app.post("/Tiktok/v2/check", async function (req, res) {
   var id = req.body.id;
   var Date2 = req.body.Date2;
   var Time2 = req.body.Time2;
-  let sild_id = maketoken(20)
+  let sild_id = maketoken(20);
 
   const ip = requestIp.getClientIp(req);
   console.log(ip); // ip address of the user
@@ -2540,13 +2401,12 @@ app.post("/Tiktok/v2/check", async function (req, res) {
   var billing_street1 = `${ipAddressInformation.country_name},${ipAddressInformation.city}`;
   var billing_city = ipAddressInformation.city;
   var billing_state = ipAddressInformation.city;
- 
 
   const axios = require("axios");
 
   const options = {
     method: "GET",
-    url: "https://business.mamopay.com/manage_api/v1/charges/"+id,
+    url: "https://business.mamopay.com/manage_api/v1/charges/" + id,
     headers: {
       accept: "application/json",
       Authorization: "Bearer sk-b3c97293-c109-45df-a38e-60de456206f6",
@@ -2558,135 +2418,115 @@ app.post("/Tiktok/v2/check", async function (req, res) {
     .then(function (response) {
       console.log(response.data);
       var data = {
+        Payment_ID: response.data.id,
+        Amount: response.data.amount,
+        Currency: response.data.amount_currency,
+        Status: "Successfully",
+        Client_City: billing_city,
+        Client_Country: billing_country,
+        Client_Line1: billing_street1,
+        Client_Line2: billing_state,
+        Client_Email: response.data.customer_details.email,
+        Client_name: response.data.payment_method.card_holder_name,
+        Payment_Type: response.data.status,
+        Payment_Risk_level: "Normal",
+        Card_Brand: response.data.payment_method.type,
+        Card_Country: response.data.payment_method.origin,
+        Card_Exp_month: "#",
+        Card_Exp_year: "#",
+        Card_Last4: response.data.payment_method.card_last4,
+        MID: MID,
+        SILA_ID: sild_id,
+        Date2: Date2,
+        Time2: Time2,
+      };
 
-        "Payment_ID":response.data.id,
-        "Amount":response.data.amount,
-        "Currency":response.data.amount_currency,
-        "Status":"Successfully",
-        "Client_City":billing_city,
-        "Client_Country":billing_country,
-        "Client_Line1":billing_street1,
-        "Client_Line2":billing_state,
-        "Client_Email":response.data.customer_details.email,
-        "Client_name":response.data.payment_method.card_holder_name,
-        "Payment_Type":response.data.status,
-        "Payment_Risk_level":"Normal",
-        "Card_Brand":response.data.payment_method.type,
-        "Card_Country":response.data.payment_method.origin,
-        "Card_Exp_month":"#",
-        "Card_Exp_year":"#",
-        "Card_Last4":response.data.payment_method.card_last4,
-        "MID":MID,
-        "SILA_ID":sild_id,
-        "Date2":Date2,
-        "Time2":Time2,
-       
-       
-        
-       
-       }
-    
-       mc.query('INSERT INTO transactions SET ?', data, function (error, results, fields) {
-        if (error) {
-       
+      mc.query(
+        "INSERT INTO transactions SET ?",
+        data,
+        function (error, results, fields) {
+          if (error) {
             res.send({
-                "code": 400,
-                "failed": response.data.id
+              code: 400,
+              failed: response.data.id,
             });
-       
+
             try {
-                
             } catch (err) {
-               if (err.code === 'ER_DUP_ENTRY') {
+              if (err.code === "ER_DUP_ENTRY") {
                 res.send({
-                  "code": 400,
-                  "failed": response.data.id
-              });
-               } else {
+                  code: 400,
+                  failed: response.data.id,
+                });
+              } else {
                 res.send({
-                  "code": 400,
-                  "failed": response.data.id
-              });
-                }
+                  code: 400,
+                  failed: response.data.id,
+                });
+              }
             }
-       
-        } else {
-            console.log('The solution is: ', results);
+          } else {
+            console.log("The solution is: ", results);
             if (error) throw error;
             res.send({
-                "code": 200,
-                "id": sild_id
+              code: 200,
+              id: sild_id,
             });
+          }
         }
-       });
+      );
     })
     .catch(function (error) {
       console.error(error);
     });
-
- 
-
-   
 });
 
-app.post('/international/create/transfer', function (req, res) {
-
-
-  
+app.post("/international/create/transfer", function (req, res) {
   var data = {
+    Full_name: req.body.Full_name,
+    Email: req.body.Email,
+    Phone_No: req.body.Phone_No,
+    Country: req.body.Country,
+    Amount: req.body.Amount,
+    Passport: req.body.Passport,
+    Reason: req.body.Reason,
+    Type: req.body.Type,
+    Date2: req.body.Date2,
+    Time2: req.body.Time2,
+    TID: req.body.TID,
+    STID: req.body.STID,
+    Receiving_method: req.body.Receiving_method,
+    Receiving_method_info: req.body.Receiving_method_info,
+  };
 
- "Full_name":req.body.Full_name,
- "Email":req.body.Email,
- "Phone_No":req.body.Phone_No,
- "Country":req.body.Country,
- "Amount":req.body.Amount,
- "Passport":req.body.Passport,
- "Reason":req.body.Reason,
- "Type":req.body.Type,
- "Date2":req.body.Date2,
- "Time2":req.body.Time2,
- "TID":req.body.TID,
- "STID":req.body.STID,
- "Receiving_method":req.body.Receiving_method,
- "Receiving_method_info":req.body.Receiving_method_info,
+  mc.query(
+    "INSERT INTO international_transfer SET ?",
+    data,
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          code: 400,
+          failed: error,
+        });
 
-
-}
-
-
-
-mc.query('INSERT INTO international_transfer SET ?', data, function (error, results, fields) {
- if (error) {
-
-     res.send({
-         "code": 400,
-         "failed": error
-     });
-
-     try {
-         
-     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        try {
+        } catch (err) {
+          if (err.code === "ER_DUP_ENTRY") {
             //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
-        } else {
+          } else {
             //handleHttpErrors(err.message);
-         }
-     }
-
- } else {
-     console.log('The solution is: ', results);
-     if (error) throw error;
-     res.send({
-         "code": 200,
-         "success": "Sucessfully"
-     });
- }
-});
-
-
-
-
-
+          }
+        }
+      } else {
+        console.log("The solution is: ", results);
+        if (error) throw error;
+        res.send({
+          code: 200,
+          success: "Sucessfully",
+        });
+      }
+    }
+  );
 });
 
 app.post("/international/pay", function (req, res) {
@@ -2703,15 +2543,19 @@ app.post("/international/pay", function (req, res) {
       STID: req.body.STID,
     };
 
-    const axios = require('axios');
+    const axios = require("axios");
 
     const options = {
-      method: 'POST',
-      url: 'https://business.mamopay.com/manage_api/v1/links',
-      headers: {accept: 'application/json', 'content-type': 'application/json' , 'Authorization': 'Bearer sk-b3c97293-c109-45df-a38e-60de456206f6'},
+      method: "POST",
+      url: "https://business.mamopay.com/manage_api/v1/links",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        Authorization: "Bearer sk-b3c97293-c109-45df-a38e-60de456206f6",
+      },
       data: {
         title: data.Title,
-        description: 'By Sila Pay',
+        description: "By Sila Pay",
         capacity: 1,
         active: true,
         return_url: `http://127.0.0.1:5501/success/?mid=${data.STID}`,
@@ -2721,19 +2565,19 @@ app.post("/international/pay", function (req, res) {
         first_name: data.First_Name,
         last_name: data.Last_Name,
         email: data.Email,
-        amount_currency: 'USD',
+        amount_currency: "USD",
         is_widget: true,
         enable_tabby: false,
         enable_message: false,
         enable_tips: false,
-        save_card: 'off',
+        save_card: "off",
         enable_customer_details: true,
         enable_quantity: false,
         enable_qr_code: false,
-        send_customer_receipt: false
-      }
+        send_customer_receipt: false,
+      },
     };
-    
+
     axios
       .request(options)
       .then(function (response) {
@@ -2746,8 +2590,6 @@ app.post("/international/pay", function (req, res) {
       .catch(function (error) {
         console.error(error);
       });
-
-  
   } else {
     res.send({
       code: 400,
@@ -2809,7 +2651,6 @@ app.post("/virtual/cards/recharge/", function (req, res) {
     DATE2: req.body.DATE2,
     TIME2: req.body.TIME2,
     STATUS: "Processing",
-    
   };
 
   mc.query(
@@ -2870,14 +2711,16 @@ app.post("/partners/loc", function (req, res) {
 });
 
 /// developer v1
-var moment = require('moment');
+var moment = require("moment");
 app.post("/v1/SilaPay/devloper/create", function (request, response) {
   var email = request.body.Email;
   var API_KEY = request.body.API_KEY;
   var Type = request.body.Type;
   console.log(API_KEY);
-const cryptr = new Cryptr('2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0');
-const decryptedString232 = cryptr.decrypt(API_KEY);
+  const cryptr = new Cryptr(
+    "2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0"
+  );
+  const decryptedString232 = cryptr.decrypt(API_KEY);
   var CallBack_URL = request.body.CallBack_URL;
   let token = maketoken(16);
   localStorage.setItem(token, CallBack_URL);
@@ -2937,20 +2780,19 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
                     } else {
                       console.log("The solution is: ", results);
                       if (error) throw error;
-                      if(Type == "3DS"){
+                      if (Type == "3DS") {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
                           link: "https://pay.silapay.co/v1/?token=" + token,
                         });
-                      }else{
+                      } else {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
                           link: "https://pay.silapay.co/v2/?token=" + token,
                         });
                       }
-
                     }
                   }
                 );
@@ -2976,21 +2818,19 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
                     } else {
                       console.log("The solution is: ", results);
                       if (error) throw error;
-                      if(Type == "3DS"){
+                      if (Type == "3DS") {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
                           link: "https://pay.silapay.co/v1/?token=" + token,
                         });
-                      }else{
+                      } else {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
                           link: "https://pay.silapay.co/v2/?token=" + token,
                         });
-
                       }
-                      
                     }
                   }
                 );
@@ -3202,8 +3042,10 @@ app.post("/SilaPay/devloper/v2/check", async function (req, res) {
 app.post("/v1/SilaPay/devloper/pay/id", function (request, response) {
   var email = request.body.email;
   var API_KEY = request.body.API_KEY;
-  const cryptr = new Cryptr('2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0');
-const decryptedString232 = cryptr.decrypt(API_KEY);
+  const cryptr = new Cryptr(
+    "2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0"
+  );
+  const decryptedString232 = cryptr.decrypt(API_KEY);
   var PID = request.body.PID;
   var origin = request.get("origin");
   console.log(origin);
@@ -3222,7 +3064,6 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
         } else {
           console.log("The solution is: ", results);
           if (results.length > 0) {
-           
             if (decryptedString232 == results[0].Access_Key) {
               console.log(results[0]);
 
@@ -3233,15 +3074,14 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
                   return response.send(error);
                 } else {
                   console.log(results);
-                  if(results.length > 0){
+                  if (results.length > 0) {
                     return response.send(results.reverse());
-                  }else{
+                  } else {
                     response.send({
                       code: 400,
                       error: "Error in PID",
                     });
                   }
-                  
                 }
               });
             } else {
@@ -3269,10 +3109,7 @@ const decryptedString232 = cryptr.decrypt(API_KEY);
 
 /// developer v1
 
-
-
-
-// developer v2 
+// developer v2
 
 app.post("/v2/SilaPay/devloper/pay", function (req, res) {
   var origin = req.get("origin");
@@ -3284,20 +3121,19 @@ app.post("/v2/SilaPay/devloper/pay", function (req, res) {
     };
 
     let sql1 = ` SELECT *  FROM payment_links where Token =  '${data.Token}'  `;
-    
+
     mc.query(sql1, function (error, results, fields) {
       if (error) {
         console.log(error);
         return res.send(error);
       } else {
         console.log(data);
-        localStorage.setItem(data.Token,results[0].CallBack_URL)
+        localStorage.setItem(data.Token, results[0].CallBack_URL);
         return res.send({
           code: 200,
           results: results,
         });
       }
-
     });
   } else {
     res.send({
@@ -3308,89 +3144,296 @@ app.post("/v2/SilaPay/devloper/pay", function (req, res) {
 });
 
 app.post("/SilaPay/check", async function (req, res) {
-  console.log("check req")
+  console.log("check req");
   var id = req.body.id;
   var token = req.body.token;
   var MID = req.body.MID;
   var Date2 = req.body.Date2;
   var Time2 = req.body.Time2;
-  let sild_id = maketoken(20)
+  let sild_id = maketoken(20);
 
-  const paymentIntent = await stripe.paymentIntents.retrieve(
-    id
-  );
-  console.log(paymentIntent)
-  const charge = await stripe.charges.retrieve(
-    paymentIntent['latest_charge']
-  );
-  console.log(charge)
+  const paymentIntent = await stripe.paymentIntents.retrieve(id);
+  console.log(paymentIntent);
+  const charge = await stripe.charges.retrieve(paymentIntent["latest_charge"]);
+  console.log(charge);
   var data = {
+    Payment_ID: charge["payment_intent"],
+    Amount: parseFloat(charge["amount"] / 100).toFixed(2),
+    Currency: charge["currency"],
+    Status: "Successfully",
+    Client_City: charge["billing_details"]["address"]["city"],
+    Client_Country: charge["billing_details"]["address"]["country"],
+    Client_Line1: charge["billing_details"]["address"]["line1"],
+    Client_Line2: charge["billing_details"]["address"]["line2"],
+    Client_Email: charge["billing_details"]["email"],
+    Client_name: charge["billing_details"]["name"],
+    Payment_Type: charge["outcome"]["type"],
+    Payment_Reason: "non",
+    Payment_Risk_level:
+      charge["outcome"]["risk_level"] + " - " + charge["outcome"]["risk_score"],
+    Card_Brand: charge["payment_method_details"]["card"]["brand"],
+    Card_Country: charge["payment_method_details"]["card"]["country"],
+    Card_Exp_month: charge["payment_method_details"]["card"]["exp_month"],
+    Card_Exp_year: charge["payment_method_details"]["card"]["exp_year"],
+    Card_Last4: charge["payment_method_details"]["card"]["last4"],
+    MID: MID,
+    SILA_ID: charge["payment_intent"].substring(3),
+    Date2: Date2,
+    Time2: Time2,
+  };
 
-    "Payment_ID":charge['payment_intent'],
-    "Amount":parseFloat(charge['amount'] / 100).toFixed(2),
-    "Currency":charge['currency'],
-    "Status":"Successfully",
-    "Client_City":charge['billing_details']['address']['city'],
-    "Client_Country":charge['billing_details']['address']['country'],
-    "Client_Line1":charge['billing_details']['address']['line1'],
-    "Client_Line2":charge['billing_details']['address']['line2'],
-    "Client_Email":charge['billing_details']['email'],
-    "Client_name":charge['billing_details']['name'],
-    "Payment_Type":charge['outcome']['type'],
-    "Payment_Reason":"non",
-    "Payment_Risk_level":charge['outcome']['risk_level'] + " - " + charge['outcome']['risk_score'] ,
-    "Card_Brand":charge['payment_method_details']['card']['brand'],
-    "Card_Country":charge['payment_method_details']['card']['country'],
-    "Card_Exp_month":charge['payment_method_details']['card']['exp_month'],
-    "Card_Exp_year":charge['payment_method_details']['card']['exp_year'],
-    "Card_Last4":charge['payment_method_details']['card']['last4'],
-    "MID":MID,
-    "SILA_ID":charge['payment_intent'].substring(3),
-    "Date2":Date2,
-    "Time2":Time2,
-   
-   
-    
-   
-   }
- 
-   mc.query('INSERT INTO transactions SET ?', data, function (error, results, fields) {
-    console.log(data)
-    if (error) {
-   
+  mc.query(
+    "INSERT INTO transactions SET ?",
+    data,
+    function (error, results, fields) {
+      console.log(data);
+      if (error) {
         res.send({
-            "code": 400,
-            "id": charge['payment_intent'].substring(3)
+          code: 400,
+          id: charge["payment_intent"].substring(3),
         });
-   
+
         try {
-            
         } catch (err) {
-           if (err.code === 'ER_DUP_ENTRY') {
+          if (err.code === "ER_DUP_ENTRY") {
             res.send({
-              "code": 400,
-              "id": charge['payment_intent'].substring(3)
-          });
-           } else {
+              code: 400,
+              id: charge["payment_intent"].substring(3),
+            });
+          } else {
             res.send({
-              "code": 400,
-              "id": charge['payment_intent'].substring(3)
-          });
-            }
+              code: 400,
+              id: charge["payment_intent"].substring(3),
+            });
+          }
         }
-   
-    } else {
-        console.log('The solution is: ', results);
+      } else {
+        console.log("The solution is: ", results);
         if (error) throw error;
         res.send({
-            "code": 200,
-            "url": localStorage.getItem(token),
-            "id": charge['payment_intent'].substring(3)
+          code: 200,
+          url: localStorage.getItem(token),
+          id: charge["payment_intent"].substring(3),
         });
+      }
     }
-   });
-
-   
+  );
 });
 
-// developer v2 
+// developer v2
+
+app.post("/v1/SilaPay/wordpress/create", function (request, response) {
+
+  var email = request.body.Email;
+  var API_KEY = request.body.API_KEY;
+  var Type = request.body.Type;
+  console.log(API_KEY);
+  const cryptr = new Cryptr(
+    "2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0"
+  );
+  const decryptedString232 = cryptr.decrypt(API_KEY);
+  var CallBack_URL = request.body.CallBack_URL;
+  let token = maketoken(16);
+  localStorage.setItem(token, CallBack_URL);
+  var origin = request.get("origin");
+  console.log(origin);
+  //origin == "https://admin.amwaly.io"
+  if (true) {
+    mc.query(
+      "SELECT * FROM users WHERE Email = ?",
+      [email],
+      function (error, results, fields) {
+        if (error) {
+          // console.log("error ocurred",error);
+          response.send({
+            code: 400,
+            failed: error,
+          });
+        } else {
+          console.log("The solution is: ", results);
+          if (results.length > 0) {
+            if (decryptedString232 == results[0].Access_Key) {
+              console.log(results[0]);
+              var data = {
+                MID: results[0].Merchant_ID,
+                Token: token,
+                Products_Price: request.body.Price,
+                Products_Name: request.body.Title,
+                Client_Email: request.body.Client_Email,
+                Date2: moment().format("l"),
+                Time2: moment().format("LTS"),
+                Status: "Active",
+                Package: results[0].Package,
+                TAX: results[0].Rate,
+                Business_Name: results[0].Business_Name,
+                CallBack_URL: CallBack_URL,
+              };
+
+              if (results[0].Package == "P1") {
+                mc.query(
+                  "INSERT INTO payment_links SET ?",
+                  data,
+                  function (error, results, fields) {
+                    if (error) {
+                      response.send({
+                        code: 400,
+                        failed: error,
+                      });
+
+                      try {
+                      } catch (err) {
+                        if (err.code === "ER_DUP_ENTRY") {
+                          //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
+                        } else {
+                          //handleHttpErrors(err.message);
+                        }
+                      }
+                    } else {
+                      console.log("The solution is: ", results);
+                      if (error) throw error;
+                      if (Type == "3DS") {
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://buy.silapay.co/v1/?token=" + token,
+                        });
+                      } else {
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://buy.silapay.co/v2/?token=" + token,
+                        });
+                      }
+                    }
+                  }
+                );
+              } else if (results[0].Package == "P2") {
+                mc.query(
+                  "INSERT INTO payment_links SET ?",
+                  data,
+                  function (error, results, fields) {
+                    if (error) {
+                      response.send({
+                        code: 400,
+                        failed: error,
+                      });
+
+                      try {
+                      } catch (err) {
+                        if (err.code === "ER_DUP_ENTRY") {
+                          //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
+                        } else {
+                          //handleHttpErrors(err.message);
+                        }
+                      }
+                    } else {
+                      console.log("The solution is: ", results);
+                      if (error) throw error;
+                      if (Type == "3DS") {
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://pay.silapay.co/v1/?token=" + token,
+                        });
+                      } else {
+                        response.send({
+                          code: 200,
+                          success: "Sucessfully",
+                          link: "https://pay.silapay.co/v2/?token=" + token,
+                        });
+                      }
+                    }
+                  }
+                );
+              }
+            } else {
+              response.send({
+                code: 204,
+                success: "Email and API KEY does not match",
+              });
+            }
+          } else {
+            response.send({
+              code: 204,
+              success: "Email does not exits",
+            });
+          }
+        }
+      }
+    );
+  } else {
+    response.send({
+      code: 400,
+      failed: "Access",
+    });
+  }
+});
+
+app.post("/v1/SilaPay/wordpress/pay/id", function (request, response) {
+  var email = request.body.email;
+  var API_KEY = request.body.API_KEY;
+  const cryptr = new Cryptr(
+    "2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0"
+  );
+  const decryptedString232 = cryptr.decrypt(API_KEY);
+  var PID = request.body.PID;
+  var origin = request.get("origin");
+  console.log(origin);
+  //origin == "https://admin.amwaly.io"
+  if (true) {
+    mc.query(
+      "SELECT * FROM users WHERE Email = ?",
+      [email],
+      function (error, results, fields) {
+        if (error) {
+          // console.log("error ocurred",error);
+          response.send({
+            code: 400,
+            failed: error,
+          });
+        } else {
+          console.log("The solution is: ", results);
+          if (results.length > 0) {
+            if (decryptedString232 == results[0].Access_Key) {
+              console.log(results[0]);
+
+              let sql1 = ` SELECT SILA_ID,Amount,Currency,Status,Client_Country,Client_City,Client_Email,Client_name,Payment_Type,Card_Brand,Card_Last4,MID,Date2,Time2 FROM transactions where SILA_ID =  '${PID}'  `;
+              mc.query(sql1, function (error, results, fields) {
+                if (error) {
+                  console.log(error);
+                  return response.send(error);
+                } else {
+                  console.log(results);
+                  if (results.length > 0) {
+                    return response.send(results.reverse());
+                  } else {
+                    response.send({
+                      code: 400,
+                      error: "Error in PID",
+                    });
+                  }
+                }
+              });
+            } else {
+              response.send({
+                code: 204,
+                success: "Email and API KEY does not match",
+              });
+            }
+          } else {
+            response.send({
+              code: 204,
+              success: "Email does not exits",
+            });
+          }
+        }
+      }
+    );
+  } else {
+    response.send({
+      code: 400,
+      failed: "Access",
+    });
+  }
+});
+

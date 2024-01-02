@@ -3225,6 +3225,8 @@ app.post("/SilaPay/check", async function (req, res) {
 // developer v2
 
 
+//https://b.silapay.co/v1/?token=DW2BqZwWSxU9FjqW&#038;projectid=&#038;FirstName=dev&#038;LastName=asdas&#038;email=admin@wordpress.silapay.us
+
 app.post("/v1/SilaPay/wordpress/create", function (request, response) {
 
   var email = request.body.Email;
@@ -3241,6 +3243,10 @@ app.post("/v1/SilaPay/wordpress/create", function (request, response) {
   var CallBack_URL = request.body.CallBack_URL;
   let token = maketoken(16);
   localStorage.setItem(token, CallBack_URL);
+  localStorage.setItem(token+"First_Name", First_Name);
+  localStorage.setItem(token+"Last_Name", Last_Name);
+  localStorage.setItem(token+"project_id", project_id);
+  localStorage.setItem(token+"email", request.body.Client_Email);
   var origin = request.get("origin");
   console.log(origin);
   //origin == "https://admin.amwaly.io"
@@ -3301,13 +3307,13 @@ app.post("/v1/SilaPay/wordpress/create", function (request, response) {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: `https://b.silapay.co/v1/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
+                          link: `https://b.silapay.co/v1/?token=${token}`,
                         });
                       } else {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: `https://b.silapay.co/v2/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
+                          link: `https://b.silapay.co/v2/?token=${token}`,
                         });
                       }
                     }
@@ -3339,13 +3345,13 @@ app.post("/v1/SilaPay/wordpress/create", function (request, response) {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: `https://b.silapay.co/v1/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
+                          link: `https://b.silapay.co/v1/?token=${token}`,
                         });
                       } else {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: `https://b.silapay.co/v2/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
+                          link: `https://b.silapay.co/v2/?token=${token}`,
                         });
                       }
                     }
@@ -3443,3 +3449,85 @@ app.post("/v1/SilaPay/wordpress/pay/id", function (request, response) {
   }
 });
 
+
+app.post("/v1/SilaPay/wordpress/pay", function (req, res) {
+  var origin = req.get("origin");
+  console.log(origin);
+  //origin == "https://admin.amwaly.io"
+  if (true) {
+    let data = {
+      Token: req.body.Token,
+      First_Name: localStorage.getItem(req.body.Token+"First_Name"),
+      Last_Name:  localStorage.getItem(req.body.Token+"Last_Name"),
+      Email:  localStorage.getItem(req.body.Token+"email"),
+    };
+
+    let sql1 = ` SELECT *  FROM payment_links where Token =  '${data.Token}'  `;
+    mc.query(sql1, function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        return res.send(error);
+      } else {
+        if (results[0].Package == "P1") {
+          console.log(data);
+          const axios = require("axios");
+          const options = {
+            method: "POST",
+            url: "https://business.mamopay.com/manage_api/v1/links",
+            headers: {
+              accept: "application/json",
+              "content-type": "application/json",
+              Authorization: "Bearer sk-b3c97293-c109-45df-a38e-60de456206f6",
+            },
+            data: {
+              title: results[0].Products_Name,
+              description: "By Sila Pay",
+              capacity: 1,
+              active: true,
+              return_url: `http://payment.silapay.co/v1/success/?mid=${results[0].MID}&token=${data.Token}`,
+              failure_return_url: `http://payment.silapay.co/v1/failed/?mid=${results[0].MID}&token=${data.Token}`,
+              processing_fee_percentage: 3,
+              amount: parseFloat(results[0].Products_Price).toFixed(0),
+              first_name: data.First_Name,
+              last_name: data.Last_Name,
+              email: data.Email,
+              amount_currency: "USD",
+              is_widget: true,
+              enable_tabby: false,
+              enable_message: false,
+              enable_tips: false,
+              save_card: "off",
+              enable_customer_details: true,
+              enable_quantity: false,
+              enable_qr_code: false,
+              send_customer_receipt: false,
+            },
+          };
+
+          axios
+            .request(options)
+            .then(function (response) {
+              console.log(response.data);
+              return res.send({
+                code: 200,
+                payment_url: response.data.payment_url,
+              });
+            })
+            .catch(function (error) {
+              console.error(error);
+            });
+        } else {
+          res.send({
+            code: 422,
+            failed: "Package invaild",
+          });
+        }
+      }
+    });
+  } else {
+    res.send({
+      code: 400,
+      failed: "Access",
+    });
+  }
+});

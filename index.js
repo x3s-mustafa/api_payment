@@ -3109,6 +3109,8 @@ app.post("/v1/SilaPay/devloper/pay/id", function (request, response) {
 
 /// developer v1
 
+
+
 // developer v2
 
 app.post("/v2/SilaPay/devloper/pay", function (req, res) {
@@ -3222,11 +3224,15 @@ app.post("/SilaPay/check", async function (req, res) {
 
 // developer v2
 
+
 app.post("/v1/SilaPay/wordpress/create", function (request, response) {
 
   var email = request.body.Email;
   var API_KEY = request.body.API_KEY;
   var Type = request.body.Type;
+  var project_id = request.body.project_id;
+  var First_Name = request.body.First_Name;
+  var Last_Name = request.body.Last_Name;
   console.log(API_KEY);
   const cryptr = new Cryptr(
     "2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0"
@@ -3295,13 +3301,13 @@ app.post("/v1/SilaPay/wordpress/create", function (request, response) {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: "https://buy.silapay.co/v1/?token=" + token,
+                          link: `https://b.silapay.co/v1/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
                         });
                       } else {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: "https://buy.silapay.co/v2/?token=" + token,
+                          link: `https://b.silapay.co/v2/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
                         });
                       }
                     }
@@ -3333,13 +3339,13 @@ app.post("/v1/SilaPay/wordpress/create", function (request, response) {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: "https://pay.silapay.co/v1/?token=" + token,
+                          link: `https://b.silapay.co/v1/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
                         });
                       } else {
                         response.send({
                           code: 200,
                           success: "Sucessfully",
-                          link: "https://pay.silapay.co/v2/?token=" + token,
+                          link: `https://b.silapay.co/v2/?token=${token}&projectid=${project_id}&FirstName=${First_Name}&LastName=${Last_Name}&email=${request.body.Client_Email}`,
                         });
                       }
                     }

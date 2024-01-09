@@ -22,7 +22,6 @@ const DeviceDetector = require("node-device-detector");
 const DeviceHelper = require("node-device-detector/helper");
 const ClientHints = require("node-device-detector/client-hints");
 var requestIp = require("request-ip");
-
 app.use(bodyparser.json());
 app.use(
   bodyparser.urlencoded({
@@ -1718,8 +1717,8 @@ app.post("/api/v1/get/token/id", function (req, res) {
             description: "By SilaPay",
             capacity: 1,
             active: true,
-            return_url: `http://127.0.0.1:5501//success/?mid=${results[0].MID}`,
-            failure_return_url: `http://127.0.0.1:5501//failed/?mid=${results[0].MID}`,
+            return_url: `https://pay.silapay.co/success/?mid=${results[0].MID}`,
+            failure_return_url: `https://pay.silapay.co//failed/?mid=${results[0].MID}`,
             processing_fee_percentage: 3,
             amount: parseFloat(results[0].Products_Price).toFixed(0),
             first_name: data.First_Name,
@@ -2346,8 +2345,8 @@ app.post("/Tiktok/pay", function (req, res) {
         description: "By Sila Pay",
         capacity: 1,
         active: true,
-        return_url: `http://127.0.0.1:5501/success/?mid=${data.STID}`,
-        failure_return_url: `http://127.0.0.1:5501/failed/?mid=${data.STID}`,
+        return_url: `https://tiktok.silapay.co/success/?mid=${data.STID}`,
+        failure_return_url: `https://tiktok.silapay.co/failed/?mid=${data.STID}`,
         processing_fee_percentage: 3,
         amount: data.Amount,
         first_name: data.First_Name,
@@ -2558,8 +2557,8 @@ app.post("/international/pay", function (req, res) {
         description: "By Sila Pay",
         capacity: 1,
         active: true,
-        return_url: `http://127.0.0.1:5501/success/?mid=${data.STID}`,
-        failure_return_url: `http://127.0.0.1:5501/failed/?mid=${data.STID}`,
+        return_url: `https://send.silapay.co/success/?mid=${data.STID}`,
+        failure_return_url: `https://send.silapay.co/failed/?mid=${data.STID}`,
         processing_fee_percentage: 3,
         amount: data.Amount,
         first_name: data.First_Name,
@@ -2892,8 +2891,8 @@ app.post("/v1/SilaPay/devloper/pay", function (req, res) {
               description: "By Sila Pay",
               capacity: 1,
               active: true,
-              return_url: `http://payment.silapay.co/v1/success/?mid=${results[0].MID}&token=${data.Token}`,
-              failure_return_url: `http://payment.silapay.co/v1/failed/?mid=${results[0].MID}&token=${data.Token}`,
+              return_url: `https://pay.silapay.co/v1/success/?mid=${results[0].MID}&token=${data.Token}`,
+              failure_return_url: `https://pay.silapay.co/v1/failed/?mid=${results[0].MID}&token=${data.Token}`,
               processing_fee_percentage: 3,
               amount: parseFloat(results[0].Products_Price).toFixed(0),
               first_name: data.First_Name,
@@ -3109,8 +3108,6 @@ app.post("/v1/SilaPay/devloper/pay/id", function (request, response) {
 
 /// developer v1
 
-
-
 // developer v2
 
 app.post("/v2/SilaPay/devloper/pay", function (req, res) {
@@ -3224,11 +3221,9 @@ app.post("/SilaPay/check", async function (req, res) {
 
 // developer v2
 
-
 //https://b.silapay.co/v1/?token=DW2BqZwWSxU9FjqW&#038;projectid=&#038;FirstName=dev&#038;LastName=asdas&#038;email=admin@wordpress.silapay.us
 
 app.post("/v1/SilaPay/wordpress/create", function (request, response) {
-
   var email = request.body.Email;
   var API_KEY = request.body.API_KEY;
   var Type = request.body.Type;
@@ -3243,10 +3238,10 @@ app.post("/v1/SilaPay/wordpress/create", function (request, response) {
   var CallBack_URL = request.body.CallBack_URL;
   let token = maketoken(16);
   localStorage.setItem(token, CallBack_URL);
-  localStorage.setItem(token+"First_Name", First_Name);
-  localStorage.setItem(token+"Last_Name", Last_Name);
-  localStorage.setItem(token+"project_id", project_id);
-  localStorage.setItem(token+"email", request.body.Client_Email);
+  localStorage.setItem(token + "First_Name", First_Name);
+  localStorage.setItem(token + "Last_Name", Last_Name);
+  localStorage.setItem(token + "project_id", project_id);
+  localStorage.setItem(token + "email", request.body.Client_Email);
   var origin = request.get("origin");
   console.log(origin);
   //origin == "https://admin.amwaly.io"
@@ -3449,7 +3444,6 @@ app.post("/v1/SilaPay/wordpress/pay/id", function (request, response) {
   }
 });
 
-
 app.post("/v1/SilaPay/wordpress/pay", function (req, res) {
   var origin = req.get("origin");
   console.log(origin);
@@ -3457,9 +3451,9 @@ app.post("/v1/SilaPay/wordpress/pay", function (req, res) {
   if (true) {
     let data = {
       Token: req.body.Token,
-      First_Name: localStorage.getItem(req.body.Token+"First_Name"),
-      Last_Name:  localStorage.getItem(req.body.Token+"Last_Name"),
-      Email:  localStorage.getItem(req.body.Token+"email"),
+      First_Name: localStorage.getItem(req.body.Token + "First_Name"),
+      Last_Name: localStorage.getItem(req.body.Token + "Last_Name"),
+      Email: localStorage.getItem(req.body.Token + "email"),
     };
 
     let sql1 = ` SELECT *  FROM payment_links where Token =  '${data.Token}'  `;
@@ -3484,8 +3478,8 @@ app.post("/v1/SilaPay/wordpress/pay", function (req, res) {
               description: "By Sila Pay",
               capacity: 1,
               active: true,
-              return_url: `http://payment.silapay.co/v1/success/?mid=${results[0].MID}&token=${data.Token}`,
-              failure_return_url: `http://payment.silapay.co/v1/failed/?mid=${results[0].MID}&token=${data.Token}`,
+              return_url: `https://b.silapay.co/v1/success/?mid=${results[0].MID}&token=${data.Token}`,
+              failure_return_url: `https://b.silapay.co/v1/failed/?mid=${results[0].MID}&token=${data.Token}`,
               processing_fee_percentage: 3,
               amount: parseFloat(results[0].Products_Price).toFixed(0),
               first_name: data.First_Name,
@@ -3531,3 +3525,991 @@ app.post("/v1/SilaPay/wordpress/pay", function (req, res) {
     });
   }
 });
+
+app.post("/emails/Review", async function (req, res) {
+  var origin = req.get("origin");
+  console.log(origin);
+  //origin == "https://admin.amwaly.io"
+  if (true) {
+
+    let data = {
+      FULL_NAME: req.body.FULL_NAME,
+      EMAIL: req.body.EMAIL,
+      Service: req.body.Service,
+    };
+
+    let transporter = nodemailer.createTransport({
+      host: "mail.silapay.us",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: "support@silapay.us", // generated ethereal user
+        pass: "1997223mnmn@S", // generated ethereal password
+      },
+    });
+
+    let info3 = await transporter.sendMail({
+      from: '"SilaPay | Support" <support@silapay.us>', // sender address
+      to: `${data.EMAIL}`, // list of receivers ${emailid}
+      subject: `Thank You for Choosing Sila Pay – Your Request Is Under Review `, // Subject line
+      text: `Thank You for Choosing Sila Pay – Your Request Is Under Review `, // plain text body
+      html: `
+  
+  
+     
+      <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Sila Review</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    style="
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      font-size: 14px;
+    "
+  >
+    <div
+      style="
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 45px 30px 60px;
+        background: #f4f7ff;
+        background-image: url(https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661497957196_595865/email-template-background-banner);
+        background-repeat: no-repeat;
+        background-size: 800px 452px;
+        background-position: top center;
+        font-size: 14px;
+        color: #434343;
+      "
+    >
+      <header>
+        <center>
+          <img
+            alt=""
+            src="https://getsila.net/email_otp.png"
+            height="80px"
+          />
+        </center>
+      </header>
+
+      <main>
+        <div
+          style="
+            margin: 0;
+            margin-top: 70px;
+            padding: 92px 30px 115px;
+            background: #ffffff;
+            border-radius: 30px;
+            text-align: center;
+          "
+        >
+          <div style="width: 100%; max-width: 489px; margin: 0 auto">
+            <h1
+              style="
+                margin: 0;
+                font-size: 20px;
+                font-weight: 500;
+                color: #1f1f1f;
+              "
+            >
+            Dear ${data.FULL_NAME},
+            </h1>
+          <br>
+            <p
+              style="
+                margin: 0;
+                margin-top: 10px;
+                font-weight: 500;
+                font-size: 12px;
+                letter-spacing: 0.56px;
+                line-height: 1.8em;
+              "
+            >
+            We sincerely thank you for choosing Sila Pay as your trusted financial partner. <br> <br>  It is our pleasure to welcome you to our growing community.<br> <br>
+
+            Your request for ${data.Service} has been received, and we are currently in the process of reviewing it. <br> <br> Our dedicated team is working diligently to ensure a swift and accurate evaluation. <br><br>
+            
+            We understand the importance of your request, <br> <br> and we want to assure you that we are committed to providing you with the best possible service.  <br> <br>  However, as we prioritize accuracy and security, <br> <br> the review process may take some time.
+            
+            We appreciate your patience and understanding during this period. <br> <br> Rest assured, we will keep you informed of any updates regarding your request. <br>If you have any urgent inquiries or additional information to provide, <br> <br>feel free to reach out to our customer support team at 
+            
+            </p>
+            <p
+              style="
+                margin: 0;
+                margin-top: 60px;
+                font-size: 14px;
+                font-weight: 600;
+                letter-spacing: 0.56px;
+                color: #00A99D;
+              "
+            >
+            <a style="
+            margin: 0;
+            margin-top: 60px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.56px;
+            color: #00A99D;
+            text-decoration: none !important;
+          "
+          href="mailto:support@silapay.co">
+              support@silapay.co
+            </a>
+            </p>
+          </div>
+        </div>
+
+        <p
+          style="
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 90px;
+            text-align: center;
+            font-weight: 500;
+            color: #8c8c8c;
+          "
+        >
+          Need help? Ask at
+          <a
+            href="mailto:support@silapay.co"
+            style="color: #499fb6; text-decoration: none"
+            >Support@silapay.co</a
+          >
+          or visit our
+          <a
+            href="https://getsila.net"
+            target="_blank"
+            style="color: #499fb6; text-decoration: none"
+            >Help Center</a
+          >
+        </p>
+      </main>
+
+      <footer
+        style="
+          width: 100%;
+          max-width: 490px;
+          margin: 20px auto 0;
+          text-align: center;
+          border-top: 1px solid #e6ebf1;
+        "
+      >
+        <p
+          style="
+            margin: 0;
+            margin-top: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #434343;
+          "
+        >
+          SilaPay
+        </p>
+        <p style="margin: 0; margin-top: 8px; color: #434343"></p>
+        <div style="margin: 0; margin-top: 16px">
+          <a href="https://www.facebook.com/getsila" target="_blank" style="display: inline-block">
+            <img
+              width="36px"
+              alt="Facebook"
+              src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
+            />
+          </a>
+          <a
+            href="https://www.instagram.com/get_sila/"
+            target="_blank"
+            style="display: inline-block; margin-left: 8px"
+          >
+            <img
+              width="36px"
+              alt="Instagram"
+              src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
+          /></a>
+         
+          
+        </div>
+        <p style="margin: 0; margin-top: 16px; color: #434343">
+          Copyright © 2022 Sila. All rights reserved.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+  
+  
+  
+      `, // html body
+    });
+  
+    console.log(info3.messageId);
+    res.send({
+      code: 200,
+      messageId: info3.messageId,
+    });
+   
+  } else {
+    res.send({
+      code: 400,
+      failed: "Access",
+    });
+  }
+});
+
+app.post("/emails/Welcome", async function (req, res) {
+  var origin = req.get("origin");
+  console.log(origin);
+  //origin == "https://admin.amwaly.io"
+  if (true) {
+
+    let data = {
+      FULL_NAME: req.body.FULL_NAME,
+      EMAIL: req.body.EMAIL,
+      Username: req.body.Username,
+      Password: req.body.Password,
+    };
+
+    let transporter = nodemailer.createTransport({
+      host: "mail.silapay.us",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: "support@silapay.us", // generated ethereal user
+        pass: "1997223mnmn@S", // generated ethereal password
+      },
+    });
+
+    let info3 = await transporter.sendMail({
+      from: '"SilaPay | Support" <support@silapay.us>', // sender address
+      to: `${data.EMAIL}`, // list of receivers ${emailid}
+      subject: `Welcome to Sila Pay - Your Account is Now Active!`, // Subject line
+      text: `Welcome to Sila Pay - Your Account is Now Active!`, // plain text body
+      html: `
+  
+  
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+          <title>Sila Review request</title>
+      
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+          />
+        </head>
+        <body
+          style="
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            font-size: 14px;
+          "
+        >
+          <div
+            style="
+              max-width: 680px;
+              margin: 0 auto;
+              padding: 45px 30px 60px;
+              background: #f4f7ff;
+              background-image: url(https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661497957196_595865/email-template-background-banner);
+              background-repeat: no-repeat;
+              background-size: 800px 452px;
+              background-position: top center;
+              font-size: 14px;
+              color: #434343;
+            "
+          >
+            <header>
+              <center>
+                <img
+                  alt=""
+                  src="https://getsila.net/email_otp.png"
+                  height="80px"
+                />
+              </center>
+            </header>
+      
+            <main>
+              <div
+                style="
+                  margin: 0;
+                  margin-top: 70px;
+                  padding: 92px 30px 115px;
+                  background: #ffffff;
+                  border-radius: 30px;
+                  text-align: center;
+                "
+              >
+                <div style="width: 100%; max-width: 489px; margin: 0 auto">
+                  <h1
+                    style="
+                      margin: 0;
+                      font-size: 20px;
+                      font-weight: 500;
+                      color: #1f1f1f;
+                    "
+                  >
+                  Dear ${data.FULL_NAME},
+                  </h1>
+                <br>
+                  <p
+                    style="
+                      margin: 0;
+                      margin-top: 10px;
+                      font-weight: 500;
+                      font-size: 12px;
+                      letter-spacing: 0.56px;
+                      line-height: 1.8em;
+                    "
+                  >
+                 
+                  We are delighted to inform you that your account with Sila Pay has been successfully accepted <br> <br>  and is now active! Welcome to our financial community.  <br> <br>
+                  
+                  You can now enjoy the full suite of Sila Pay services, <br> <br> We appreciate your trust in Sila Pay, and we are committed to providing you with a seamless and secure financial experience.
+                  
+                  To access your account,  <br> <br>  please use the following credentials: 
+                  </p>
+      
+                  <p
+                    style="
+                      margin: 0;
+                      margin-top: 30px;
+                      font-size: 14px;
+                      font-weight: 600;
+                      letter-spacing: 0.56px;
+                      color: #00A99D;
+                    "
+                  >
+                  Username: ${data.Username} <br>
+                Password: ${data.Password}
+                  </p>
+      
+                  <p
+                    style="
+                      margin: 0;
+                      margin-top: 30px;
+                      font-size: 14px;
+                      font-weight: 600;
+                      letter-spacing: 0.56px;
+                      color: #00A99D;
+                    "
+                  >
+                  <a style="
+                  margin: 0;
+                  margin-top: 60px;
+                  font-size: 14px;
+                  font-weight: 600;
+                  letter-spacing: 0.56px;
+                  color: #00A99D;
+                  text-decoration: none !important;
+                "
+                href="https://merchant.silapay.co/">
+                Merchant Panel: https://merchant.silapay.co/
+                  </a>
+                  </p>
+      
+      
+                  <p
+                  style="
+                    margin: 0;
+                    margin-top: 10px;
+                    font-weight: 500;
+                    font-size: 12px;
+                    letter-spacing: 0.56px;
+                    line-height: 1.8em;
+                  "
+                >
+                 <br>  Thank you once again for choosing Sila Pay.  <br> <br> We look forward to being your preferred financial partner.
+                </p>
+      
+      
+                </div>
+              </div>
+      
+              <p
+                style="
+                  max-width: 400px;
+                  margin: 0 auto;
+                  margin-top: 90px;
+                  text-align: center;
+                  font-weight: 500;
+                  color: #8c8c8c;
+                "
+              >
+                Need help? Ask at
+                <a
+                  href="mailto:support@silapay.co"
+                  style="color: #499fb6; text-decoration: none"
+                  >Support@silapay.co</a
+                >
+                or visit our
+                <a
+                  href="https://getsila.net"
+                  target="_blank"
+                  style="color: #499fb6; text-decoration: none"
+                  >Help Center</a
+                >
+              </p>
+            </main>
+      
+            <footer
+              style="
+                width: 100%;
+                max-width: 490px;
+                margin: 20px auto 0;
+                text-align: center;
+                border-top: 1px solid #e6ebf1;
+              "
+            >
+              <p
+                style="
+                  margin: 0;
+                  margin-top: 40px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: #434343;
+                "
+              >
+                SilaPay
+              </p>
+              <p style="margin: 0; margin-top: 8px; color: #434343"></p>
+              <div style="margin: 0; margin-top: 16px">
+                <a href="https://www.facebook.com/getsila" target="_blank" style="display: inline-block">
+                  <img
+                    width="36px"
+                    alt="Facebook"
+                    src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
+                  />
+                </a>
+                <a
+                  href="https://www.instagram.com/get_sila/"
+                  target="_blank"
+                  style="display: inline-block; margin-left: 8px"
+                >
+                  <img
+                    width="36px"
+                    alt="Instagram"
+                    src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
+                /></a>
+               
+                
+              </div>
+              <p style="margin: 0; margin-top: 16px; color: #434343">
+                Copyright © 2022 Sila. All rights reserved.
+              </p>
+            </footer>
+          </div>
+        </body>
+      </html>
+      
+  
+  
+  
+      `, // html body
+    });
+  
+    console.log(info3.messageId);
+    res.send({
+      code: 200,
+      messageId: info3.messageId,
+    });
+   
+  } else {
+    res.send({
+      code: 400,
+      failed: "Access",
+    });
+  }
+});
+
+app.post("/emails/Credit", async function (req, res) {
+  var origin = req.get("origin");
+  console.log(origin);
+  //origin == "https://admin.amwaly.io"
+  if (true) {
+
+    let data = {
+      FULL_NAME: req.body.FULL_NAME,
+      EMAIL: req.body.EMAIL,
+      CardNumber: req.body.CardNumber,
+      Expiry: req.body.Expiry,
+      CVV: req.body.CVV,
+    };
+
+    let transporter = nodemailer.createTransport({
+      host: "mail.silapay.us",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: "support@silapay.us", // generated ethereal user
+        pass: "1997223mnmn@S", // generated ethereal password
+      },
+    });
+
+    let info3 = await transporter.sendMail({
+      from: '"SilaPay | Support" <support@silapay.us>', // sender address
+      to: `${data.EMAIL}`, // list of receivers ${emailid}
+      subject: `Your Sila Pay Credit Card Details Inside – Secure Access Instructions`, // Subject line
+      text: `Your Sila Pay Credit Card Details Inside – Secure Access Instructions`, // plain text body
+      html: `
+  
+  
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+          <title>Sila Review request</title>
+      
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+          />
+        </head>
+        <body
+          style="
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            font-size: 14px;
+          "
+        >
+          <div
+            style="
+              max-width: 680px;
+              margin: 0 auto;
+              padding: 45px 30px 60px;
+              background: #f4f7ff;
+              background-image: url(https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661497957196_595865/email-template-background-banner);
+              background-repeat: no-repeat;
+              background-size: 800px 452px;
+              background-position: top center;
+              font-size: 14px;
+              color: #434343;
+            "
+          >
+            <header>
+              <center>
+                <img
+                  alt=""
+                  src="https://getsila.net/email_otp.png"
+                  height="80px"
+                />
+              </center>
+            </header>
+      
+            <main>
+              <div
+                style="
+                  margin: 0;
+                  margin-top: 70px;
+                  padding: 92px 30px 115px;
+                  background: #ffffff;
+                  border-radius: 30px;
+                  text-align: center;
+                "
+              >
+                <div style="width: 100%; max-width: 489px; margin: 0 auto">
+                  <h1
+                    style="
+                      margin: 0;
+                      font-size: 20px;
+                      font-weight: 500;
+                      color: #1f1f1f;
+                    "
+                  >
+                  Dear ${data.FULL_NAME},
+                  </h1>
+                <br>
+                  <p
+                    style="
+                      margin: 0;
+                      margin-top: 10px;
+                      font-weight: 500;
+                      font-size: 12px;
+                      letter-spacing: 0.56px;
+                      line-height: 1.8em;
+                    "
+                  >
+                  We hope this message finds you well. <br><br> We are thrilled to inform you that your Sila Pay credit card is now ready for use. This card opens up a world of financial possibilities, <br><br>  offering convenience and flexibility in your transactions. <br><br> 
+      
+                  Here are the details for your Sila Pay credit card:
+      
+                  </p>
+      
+                  <p
+                    style="
+                      margin: 0;
+                      margin-top: 30px;
+                      font-size: 14px;
+                      font-weight: 600;
+                      letter-spacing: 0.56px;
+                      color: #00A99D;
+                    "
+                  >
+                  Card Number: ${data.CardNumber} <br><br>
+                  Expiry Date: ${data.Expiry} <br><br>
+                  CVV: ${data.CVV} <br><br>
+                  Country: UAE <br><br>
+                  Postal Code: 00000 <br><br>
+                  </p>
+      
+                
+      
+                  <p
+                  style="
+                    margin: 0;
+                    margin-top: 10px;
+                    font-weight: 500;
+                    font-size: 12px;
+                    letter-spacing: 0.56px;
+                    line-height: 1.8em;
+                  "
+                >
+                <br> Please note that these details are sensitive and should be handled with care. <br><br> For your security, <br><br> we recommend not sharing this information with anyone. <br><br>If you have any concerns about the security of your card, <br><br> please contact our customer support team immediately.
+                </p>
+      
+      
+                </div>
+              </div>
+      
+              <p
+                style="
+                  max-width: 400px;
+                  margin: 0 auto;
+                  margin-top: 90px;
+                  text-align: center;
+                  font-weight: 500;
+                  color: #8c8c8c;
+                "
+              >
+                Need help? Ask at
+                <a
+                  href="mailto:support@silapay.co"
+                  style="color: #499fb6; text-decoration: none"
+                  >Support@silapay.co</a
+                >
+                or visit our
+                <a
+                  href="https://getsila.net"
+                  target="_blank"
+                  style="color: #499fb6; text-decoration: none"
+                  >Help Center</a
+                >
+              </p>
+            </main>
+      
+            <footer
+              style="
+                width: 100%;
+                max-width: 490px;
+                margin: 20px auto 0;
+                text-align: center;
+                border-top: 1px solid #e6ebf1;
+              "
+            >
+              <p
+                style="
+                  margin: 0;
+                  margin-top: 40px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: #434343;
+                "
+              >
+                SilaPay
+              </p>
+              <p style="margin: 0; margin-top: 8px; color: #434343"></p>
+              <div style="margin: 0; margin-top: 16px">
+                <a href="https://www.facebook.com/getsila" target="_blank" style="display: inline-block">
+                  <img
+                    width="36px"
+                    alt="Facebook"
+                    src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
+                  />
+                </a>
+                <a
+                  href="https://www.instagram.com/get_sila/"
+                  target="_blank"
+                  style="display: inline-block; margin-left: 8px"
+                >
+                  <img
+                    width="36px"
+                    alt="Instagram"
+                    src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
+                /></a>
+               
+                
+              </div>
+              <p style="margin: 0; margin-top: 16px; color: #434343">
+                Copyright © 2022 Sila. All rights reserved.
+              </p>
+            </footer>
+          </div>
+        </body>
+      </html>
+      
+  
+  
+      `, // html body
+    });
+  
+    console.log(info3.messageId);
+    res.send({
+      code: 200,
+      messageId: info3.messageId,
+    });
+   
+  } else {
+    res.send({
+      code: 400,
+      failed: "Access",
+    });
+  }
+});
+
+app.post("/emails/Credit/otp", async function (req, res) {
+  var origin = req.get("origin");
+  console.log(origin);
+  //origin == "https://admin.amwaly.io"
+  if (true) {
+
+    let data = {
+      OTP: req.body.OTP,
+      last4digits: req.body.last4digits,
+      textarea: req.body.textarea,
+    };
+
+    let sql1 = `SELECT * FROM virtual_cards WHERE SUBSTRING(CARD_NUMBER,4) = ${data.last4digits};`;
+    mc.query(sql1, async function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        return res.send(error);
+      } else {
+        console.log(data);
+        console.log(results);
+        // res.send(results.reverse());
+
+
+    let transporter = nodemailer.createTransport({
+      host: "mail.silapay.us",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: "support@silapay.us", // generated ethereal user
+        pass: "1997223mnmn@S", // generated ethereal password
+      },
+    });
+
+    let info3 = await transporter.sendMail({
+      from: '"SilaPay | Support" <support@silapay.us>', // sender address
+      to: `${results[0].EMAIL}`, // list of receivers ${emailid}
+      subject: `Sila Pay OTP Authentication - ${data.OTP}`, // Subject line
+      text: `Sila Pay OTP Authentication - ${data.OTP}`, // plain text body
+      html: `
+  
+  
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+          <title>Sila Review request</title>
+      
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+          />
+        </head>
+        <body
+          style="
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            font-size: 14px;
+          "
+        >
+          <div
+            style="
+              max-width: 680px;
+              margin: 0 auto;
+              padding: 45px 30px 60px;
+              background: #f4f7ff;
+              background-image: url(https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661497957196_595865/email-template-background-banner);
+              background-repeat: no-repeat;
+              background-size: 800px 452px;
+              background-position: top center;
+              font-size: 14px;
+              color: #434343;
+            "
+          >
+            <header>
+              <center>
+                <img
+                  alt=""
+                  src="https://getsila.net/email_otp.png"
+                  height="80px"
+                />
+              </center>
+            </header>
+      
+            <main>
+              <div
+                style="
+                  margin: 0;
+                  margin-top: 70px;
+                  padding: 92px 30px 115px;
+                  background: #ffffff;
+                  border-radius: 30px;
+                  text-align: center;
+                "
+              >
+                <div style="width: 100%; max-width: 489px; margin: 0 auto">
+                 
+                  <p
+                  style="
+                    margin: 0;
+                    margin-top: 30px;
+                    font-size: 22px;
+                    font-weight: 600;
+                    letter-spacing: 10px;
+                    color: #00A99D;
+                  "
+                >
+                ${data.OTP} <br><br>
+               
+                </p>
+      
+                  <p
+                  style="
+                    margin: 0;
+                    margin-top: 10px;
+                    font-weight: 500;
+                    font-size: 12px;
+                    letter-spacing: 0.56px;
+                    line-height: 2em;
+                  "
+                >
+                ${data.textarea} 
+              </p>
+      
+      
+                </div>
+              </div>
+      
+              <p
+                style="
+                  max-width: 400px;
+                  margin: 0 auto;
+                  margin-top: 90px;
+                  text-align: center;
+                  font-weight: 500;
+                  color: #8c8c8c;
+                "
+              >
+                Need help? Ask at
+                <a
+                  href="mailto:support@silapay.co"
+                  style="color: #499fb6; text-decoration: none"
+                  >Support@silapay.co</a
+                >
+                or visit our
+                <a
+                  href="https://getsila.net"
+                  target="_blank"
+                  style="color: #499fb6; text-decoration: none"
+                  >Help Center</a
+                >
+              </p>
+            </main>
+      
+            <footer
+              style="
+                width: 100%;
+                max-width: 490px;
+                margin: 20px auto 0;
+                text-align: center;
+                border-top: 1px solid #e6ebf1;
+              "
+            >
+              <p
+                style="
+                  margin: 0;
+                  margin-top: 40px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: #434343;
+                "
+              >
+                SilaPay
+              </p>
+              <p style="margin: 0; margin-top: 8px; color: #434343"></p>
+              <div style="margin: 0; margin-top: 16px">
+                <a href="https://www.facebook.com/getsila" target="_blank" style="display: inline-block">
+                  <img
+                    width="36px"
+                    alt="Facebook"
+                    src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
+                  />
+                </a>
+                <a
+                  href="https://www.instagram.com/get_sila/"
+                  target="_blank"
+                  style="display: inline-block; margin-left: 8px"
+                >
+                  <img
+                    width="36px"
+                    alt="Instagram"
+                    src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
+                /></a>
+               
+                
+              </div>
+              <p style="margin: 0; margin-top: 16px; color: #434343">
+                Copyright © 2022 Sila. All rights reserved.
+              </p>
+            </footer>
+          </div>
+        </body>
+      </html>
+      
+      
+  
+  
+      `, // html body
+    });
+  
+    console.log(info3.messageId);
+    res.send({
+      code: 200,
+      messageId: info3.messageId,
+    });
+      }
+    });
+
+   
+  } else {
+    res.send({
+      code: 400,
+      failed: "Access",
+    });
+  }
+});
+
+
+
